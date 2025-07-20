@@ -1,0 +1,82 @@
+.btn-voir {
+  margin-left: 15px;
+  margin-right: 15px;
+  border: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-editer {
+  border: 0px;
+  padding-left: 5px;
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-delete {
+  border: 0px;
+  padding: 5px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dataTable {
+  border-radius: 2px;
+}
+
+.dataTable .MuiDataGrid-columnHeaders {
+  color: #42a5f5;
+  font-weight: bold;
+}
+
+.dataTable .MuiDataGrid-columnHeader:focus,
+.dataTable .MuiDataGrid-cell:focus {
+  outline: none;
+  border: none;
+}
+
+.dataTable .MuiDataGrid-columnHeader:focus-within {
+  outline: none;
+  border: none;
+}
+.modals {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 500px;
+  background-color: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.titleModal {
+  margin: 0;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  color: white;
+}
+
+.modalsProfilPrivilege {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 500px;
+  background-color: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
