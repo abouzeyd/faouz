@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUtilisateurs, createUtilisateur } from '../../service/parametrage/utilisateurs';
+import { getUtilisateurs, createUtilisateur, getUtilisateur, updateUtilisateur } from '../../service/parametrage/utilisateurs';
 
 const initialState = {
   utilisateurs: [],
@@ -8,7 +8,10 @@ const initialState = {
   createLoading: false,
   createError: null,
   valueEdition: '',
-  receiveEditId: ''
+  receiveEditId: '',
+  utilisateur: {},
+  receiveId: {},
+  utilisateurupdate: []
 };
 
 const utilisateurSlice = createSlice({
@@ -20,6 +23,10 @@ const utilisateurSlice = createSlice({
     },
     setReceiveEditId: (state, action) => {
       state.receiveEditId = action.payload;
+    },
+
+    setReceiveId: (state, action) => {
+      state.receiveId = action.payload;
     },
 
     setEdition: (state, action) => {
@@ -44,6 +51,22 @@ const utilisateurSlice = createSlice({
       state.loading = false;
     });
 
+    // Gestion de getUtilisateur
+    builder.addCase(getUtilisateur.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getUtilisateur.fulfilled, (state, action) => {
+      state.utilisateur = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getUtilisateur.rejected, (state, action) => {
+      console.log('action', action);
+
+      state.error = action.message;
+      state.loading = false;
+    });
+
     // Gestion de createUtilisateur
     builder.addCase(createUtilisateur.pending, (state) => {
       state.createLoading = true;
@@ -52,14 +75,19 @@ const utilisateurSlice = createSlice({
     builder.addCase(createUtilisateur.fulfilled, (state, action) => {
       state.createLoading = false;
       // Optionnel : ajouter le nouvel utilisateur à la liste
-      // state.utilisateurs.push(action.payload);
+      state.utilisateurs.push(action.payload);
     });
     builder.addCase(createUtilisateur.rejected, (state, action) => {
       state.createError = action.error.message;
       state.createLoading = false;
     });
+
+    builder.addCase(updateUtilisateur.fulfilled, (state, action) => {
+      const updated = action.payload;
+      state.utilisateurupdate = state.utilisateurs.map((u) => (u.id === updated.id ? updated : u));
+    });
   }
 });
 
-export const { setUtilisateurs, clearCreateError, setEdition, setReceiveEditId } = utilisateurSlice.actions;
+export const { setUtilisateurs, clearCreateError, setEdition, setReceiveEditId, setReceiveId } = utilisateurSlice.actions;
 export default utilisateurSlice.reducer;

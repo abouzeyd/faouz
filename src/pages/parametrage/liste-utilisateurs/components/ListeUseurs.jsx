@@ -14,7 +14,7 @@ export default function ListeUtilisateurs() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { utilisateurs, loading, error } = useSelector((state) => state.utilisateur);
+  const { utilisateurs, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.utilisateur);
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -42,11 +42,19 @@ export default function ListeUtilisateurs() {
 
   const data = Array.isArray(utilisateurs)
     ? utilisateurs.map((user, idx) => ({
-        key: user.id || idx,
+        key: user.lgUtiid || idx,
         nom: user.strUtiname,
         login: user.strUtilogin
       }))
     : [];
+
+  // const dataupdate = Array.isArray(utilisateurupdate)
+  //   ? utilisateurupdate.map((user, idx) => ({
+  //       key: user?.data.lgUtiid || idx,
+  //       nom: user?.data.strUtiname,
+  //       login: user?.data.strUtilogin
+  //     }))
+  //   : [];
 
   const handleChange = (event) => {
     setValeur(event.target.value);
@@ -54,20 +62,18 @@ export default function ListeUtilisateurs() {
 
   const filterSaerch = data?.filter((data) => data?.nom?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
-  console.log('filterSaerch', filterSaerch);
-
   const deleteButton = async () => {
-    const response = await dispatch(deleteUtilisateur(deleteBtn?.key));
-    if (response.success === true) {
+    const response = await dispatch(deleteUtilisateur(receiveId?.key));
+
+    if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
+      dispatch(getUtilisateurs());
     } else {
       <Alert message="Error Text" type="error" />;
     }
   };
 
-  const handleVoir = (row) => {
-    console.log('Voir', row);
-  };
+  const handleVoir = (row) => {};
 
   const columns = [
     {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { setEdition } from '../store/parametrage/utilisateur';
+import { setEdition, setReceiveId } from '../store/parametrage/utilisateur';
 import { useDispatch } from 'react-redux';
 
 export default function RenderActions({
@@ -12,12 +12,15 @@ export default function RenderActions({
   handleOpenModalDelete
 }) {
   const dispatch = useDispatch();
+
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <button
           className="btn-editer"
           onClick={() => {
+            console.log({ record });
+            dispatch(setReceiveId(record));
             setEditerBtn(record);
             handleOpenModalEditer(record);
           }}
@@ -41,6 +44,7 @@ export default function RenderActions({
           onClick={() => {
             setDeleteBtn(record);
             handleOpenModalDelete();
+            dispatch(setReceiveId(record));
           }}
           disabled={loading}
         >
