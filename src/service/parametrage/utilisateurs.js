@@ -29,21 +29,38 @@ export const createUtilisateur = createAsyncThunk('utilisateurs/createutilisateu
 });
 
 export const updateUtilisateur = createAsyncThunk('utilisateurs/updateUtilisateur', async (data) => {
+  const token = getValueLocalStorage('user');
   const jsonData = {
-    lgUtiid: '',
+    lgUtiid: data?.receiveId.key,
+    lgEcoid: '01',
     strUtiname: data.nameUser,
     strUtilogin: data?.loginUser
   };
-  const response = await axios.put(`${BASEURL}/utilisateur/updateUtilisateur`, jsonData);
+  const response = await axios.put(`${BASEURL}/utilisateur/updateUtilisateur`, jsonData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token?.strUtitoken}`
+    }
+  });
   return response.data;
 });
 
 export const deleteUtilisateur = createAsyncThunk('utilisateurs/deleteUtilisateur', async (data) => {
-  const response = await axios.put(`${BASEURL}/utilisateur/deleteUtilisateur?LG_UTIID=${data}`);
+  const token = getValueLocalStorage('user');
+  const response = await axios.put(
+    `${BASEURL}/utilisateur/deleteUtilisateur?LG_UTIID=${data}`,
+    {},
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.strUtitoken}`
+      }
+    }
+  );
   return response.data;
 });
 
 export const getUtilisateur = createAsyncThunk('utilisateurs/getUtilisateur', async (data) => {
-  const response = await axios.put(`${BASEURL}/utilisateur/getUtilisateur?LG_UTIID=${data}`);
+  const response = await axios.get(`${BASEURL}/utilisateur/getUtilisateur?LG_UTIID=${data}`);
   return response.data;
 });

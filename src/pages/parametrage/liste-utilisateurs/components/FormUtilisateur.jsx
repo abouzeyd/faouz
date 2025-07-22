@@ -1,43 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createUtilisateur, getUtilisateur, updateUtilisateur, getUtilisateurs } from '../../../../service/parametrage/utilisateurs';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEdition } from '../../../../store/parametrage/utilisateur';
 
 export default function FormUtilisateur({ handleClose }) {
   const dispatch = useDispatch();
-  const { createLoading, createError, receiveEditId, valueEdition } = useSelector((state) => state.utilisateur);
+  const { createLoading, createError, receiveEditId, valueEdition, utilisateur, receiveId } = useSelector((state) => state.utilisateur);
   const [nameUser, setNameUser] = useState('');
   const [loginUser, setLoginUser] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!nameUser.trim() || !loginUser.trim() || !password.trim()) {
       alert('Veuillez remplir tous les champs');
       return;
     }
     if (valueEdition === '') {
-      dispatch(createUtilisateur({ nameUser, loginUser, password }));
-      dispatch(getUtilisateurs());
-      handleClose();
-      setNameUser('');
-      setLoginUser('');
-      setPassword('');
+      const result = await dispatch(createUtilisateur({ nameUser, loginUser, password }));
+
+      if (createUtilisateur.fulfilled.match(result)) {
+        await dispatch(getUtilisateurs());
+        handleClose();
+        setNameUser('');
+        setLoginUser('');
+        setPassword('');
+      }
     } else if (valueEdition === 'editer') {
-      dispatch(updateUtilisateur({ nameUser, loginUser, password }));
+      const result = await dispatch(updateUtilisateur({ nameUser, loginUser, password, receiveId }));
+
+      if (updateUtilisateur.fulfilled.match(result)) {
+        await dispatch(getUtilisateurs());
+        handleClose();
+        setNameUser('');
+        setLoginUser('');
+        setPassword('');
+      }
     }
   };
 
-  React.useEffect(() => {
-    if (valueEdition === 'editer') {
+  useEffect(() => {
+    if (valueEdition === 'editer' && receiveEditId) {
       dispatch(getUtilisateur(receiveEditId));
-    }
-
-    if (!createLoading && !createError) {
+    } else {
       setNameUser('');
       setLoginUser('');
       setPassword('');
     }
-  }, [createLoading, createError]);
+  }, [valueEdition, receiveEditId, dispatch]);
+
+  useEffect(() => {
+    if (valueEdition === 'editer' && utilisateur) {
+      setNameUser(utilisateur.strUtiname || '');
+      setLoginUser(utilisateur.strUtilogin || '');
+      setPassword('');
+    }
+  }, [utilisateur, valueEdition]);
 
   return (
     <div>

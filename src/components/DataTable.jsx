@@ -44,21 +44,6 @@ export default function DataTable({ data, loading, error, onRefresh, columns }) 
 
   return (
     <div style={{ width: '100%' }}>
-      {/* Barre d'outils avec bouton de rafraîchissement */}
-      {/* {onRefresh && (
-        <div
-          style={{
-            marginBottom: '16px',
-            display: 'flex',
-            justifyContent: 'flex-end'
-          }}
-        >
-          <Button icon={<ReloadOutlined />} onClick={onRefresh} loading={loading} type="default">
-            Actualiser
-          </Button>
-        </div>
-      )} */}
-
       <div
         style={{
           position: 'relative',
@@ -73,7 +58,7 @@ export default function DataTable({ data, loading, error, onRefresh, columns }) 
           onChange={onChange}
           rowSelection={true}
           className="dataTable"
-          // loading={loading}
+          loading={loading}
           pagination={{
             showSizeChanger: true,
             showQuickJumper: true,
