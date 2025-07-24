@@ -44,17 +44,11 @@ export default function ListeUtilisateurs() {
     ? utilisateurs.map((user, idx) => ({
         key: user.lgUtiid || idx,
         nom: user.strUtiname,
-        login: user.strUtilogin
+        login: user.strUtilogin,
+        email: user.strUtimail,
+        telephone: user.strUtiphone
       }))
     : [];
-
-  // const dataupdate = Array.isArray(utilisateurupdate)
-  //   ? utilisateurupdate.map((user, idx) => ({
-  //       key: user?.data.lgUtiid || idx,
-  //       nom: user?.data.strUtiname,
-  //       login: user?.data.strUtilogin
-  //     }))
-  //   : [];
 
   const handleChange = (event) => {
     setValeur(event.target.value);
@@ -90,6 +84,24 @@ export default function ListeUtilisateurs() {
       dataIndex: 'login',
       key: 'login',
       sorter: (a, b) => a?.login?.localeCompare(b.login),
+      onHeaderCell: () => ({
+        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+      })
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      sorter: (a, b) => a?.email?.localeCompare(b.email),
+      onHeaderCell: () => ({
+        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+      })
+    },
+    {
+      title: 'Téléphone',
+      dataIndex: 'telephone',
+      key: 'telephone',
+      sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })

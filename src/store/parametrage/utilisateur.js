@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUtilisateurs, createUtilisateur, getUtilisateur, updateUtilisateur } from '../../service/parametrage/utilisateurs';
+import { getEcoles } from '../../service/parametrage/ecole';
+import { Label } from '@mui/icons-material';
+// import { Label } from '@mui/icons-material';
 
 const initialState = {
   utilisateurs: [],
@@ -11,7 +14,8 @@ const initialState = {
   receiveEditId: '',
   utilisateur: {},
   receiveId: {},
-  utilisateurupdate: []
+  utilisateurupdate: [],
+  listeEcoles: []
 };
 
 const utilisateurSlice = createSlice({
@@ -86,6 +90,30 @@ const utilisateurSlice = createSlice({
       const updated = action.payload;
       state.utilisateurupdate = state.utilisateurs.map((u) => (u.id === updated.id ? updated : u));
     });
+
+    builder
+      .addCase(getEcoles.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getEcoles.fulfilled, (state, action) => {
+        state.loading = false;
+
+        if (action?.payload.length > 0) {
+          let ecole = [];
+
+          action?.payload.forEach((element) => {
+            ecole.push({
+              label: element?.strEcodescription,
+              value: element?.lgEcoid
+            });
+          });
+          state.listeEcoles = ecole;
+        }
+      })
+      .addCase(getEcoles.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   }
 });
 

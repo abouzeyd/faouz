@@ -1,6 +1,7 @@
 import React from 'react';
 import { setEdition, setReceiveId } from '../store/parametrage/utilisateur';
 import { useDispatch } from 'react-redux';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 export default function RenderActions({
   loading,
@@ -16,40 +17,26 @@ export default function RenderActions({
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px' }}>
-        <button
-          className="btn-editer"
+        <EditOutlined
+          style={{ fontSize: 15, color: 'blue', marginLeft: 52 }}
           onClick={() => {
             console.log({ record });
             dispatch(setReceiveId(record));
             setEditerBtn(record);
             handleOpenModalEditer(record);
           }}
-          disabled={loading}
-        >
-          Éditer
-        </button>
-        <button
-          className="btn-voir"
-          onClick={() => {
-            handleVoir(record);
-            handleOpenModalEditer();
-            dispatch(setEdition('voir'));
-          }}
-          disabled={loading}
-        >
-          Voir
-        </button>
-        <button
-          className="btn-delete"
+          title="modification"
+        />
+
+        <DeleteOutlined
+          style={{ fontSize: 15, color: 'red', marginLeft: 52 }}
           onClick={() => {
             setDeleteBtn(record);
             handleOpenModalDelete();
             dispatch(setReceiveId(record));
           }}
-          disabled={loading}
-        >
-          Supprimer
-        </button>
+          title="supprimer"
+        />
       </div>
     </div>
   );

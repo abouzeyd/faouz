@@ -15,7 +15,9 @@ export const createUtilisateur = createAsyncThunk('utilisateurs/createutilisateu
     strUtiname: data.nameUser ?? '',
     strUtilogin: data?.loginUser ?? '',
     strUtipassword: data?.password ?? '',
-    lgEcoid: '01'
+    strUtiphone: data?.phone ?? '',
+    strUtimail: data?.email ?? '',
+    lgEcoid: data?.selectId ?? ''
   };
   console.log(token);
 
@@ -29,12 +31,16 @@ export const createUtilisateur = createAsyncThunk('utilisateurs/createutilisateu
 });
 
 export const updateUtilisateur = createAsyncThunk('utilisateurs/updateUtilisateur', async (data) => {
+  console.log({ data });
+
   const token = getValueLocalStorage('user');
   const jsonData = {
     lgUtiid: data?.receiveId.key,
-    lgEcoid: '01',
+    lgEcoid: data?.selectId ?? '',
     strUtiname: data.nameUser,
-    strUtilogin: data?.loginUser
+    strUtilogin: data?.loginUser,
+    strUtiphone: data?.phone,
+    strUtimail: data?.email
   };
   const response = await axios.put(`${BASEURL}/utilisateur/updateUtilisateur`, jsonData, {
     headers: {
