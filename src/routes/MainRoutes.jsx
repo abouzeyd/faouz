@@ -15,7 +15,7 @@ const ListeEcole = Loadable(lazy(() => import('../pages/parametrage/liste-ecoles
 
 // render - color
 
-// render - sample page
+// render - sample pages
 
 // ==============================|| MAIN ROUTING ||============================== //
 
