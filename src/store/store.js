@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './auth/auth';
 import utilisateurReducer from './parametrage/utilisateur';
+import ecoleReducer from './parametrage/ecole';
 
 const persistConfig = {
   key: 'auth',
@@ -16,7 +17,8 @@ const persistAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistAuthReducer,
-    utilisateur: utilisateurReducer
+    utilisateur: utilisateurReducer,
+    ecole: ecoleReducer
   }
 });
 
