@@ -3,6 +3,8 @@ import React from 'react';
 import axios from 'axios';
 import { BASEURL } from './serveur';
 import TokenService from './tokenService';
+import { getValueLocalStorage } from '../service/globalFunction';
+import { purgeStorage } from '../service/globalFunction';
 
 // Fonction de connexion améliorée
 export const connexion = async (STR_UTILOGIN, STR_UTIPASSWORD) => {
@@ -30,22 +32,32 @@ export const connexion = async (STR_UTILOGIN, STR_UTIPASSWORD) => {
   }
 };
 
-// Fonction de déconnexion
-export const deconnexion = async () => {
-  try {
-    const refreshToken = TokenService.getRefreshToken();
+export const deconnexion = async (navigate) => {
+  const token = getValueLocalStorage('user').strUtitoken;
+  if (!token) {
+    navigate('/login', { replace: true });
+    return;
+  }
 
-    if (refreshToken) {
-      // Appel API pour invalider le token côté serveur
-      await axios.post(`${BASEURL}/authentification/logout`, {
-        refreshToken: refreshToken
-      });
-    }
+  try {
+    await axios.post(
+      `${BASEURL}/authentification/dodisconnect`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    navigate('/login', { replace: true });
+    purgeStorage('user');
+    purgeStorage('persist:auth');
+    return;
   } catch (error) {
-    console.error('Erreur lors de la déconnexion:', error);
-  } finally {
-    // Nettoyer les tokens locaux
-    TokenService.clearTokens();
+    navigate('/login', { replace: true });
+    purgeStorage('user');
+    purgeStorage('persist:auth');
+    return;
   }
 };
 

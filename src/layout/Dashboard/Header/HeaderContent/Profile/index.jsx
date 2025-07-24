@@ -130,13 +130,13 @@ export default function Profile() {
                           </Stack>
                         </Stack>
                       </Grid>
-                      <Grid>
+                      {/* <Grid>
                         <Tooltip title="Logout">
                           <IconButton size="large" sx={{ color: 'text.primary' }}>
                             <LogoutOutlined />
                           </IconButton>
                         </Tooltip>
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                   </CardContent>
                   <ProfileTab />
