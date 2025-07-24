@@ -39,8 +39,6 @@ yarn run start
 
 ## Contributor
 
-**CodedThemes Team**
-
 - https://github.com/abouzeyd
 
 
