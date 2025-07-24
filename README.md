@@ -3,7 +3,7 @@
 1. Clone from Github
 
 ```
-[git clone https://github.com/abouzeyd/faouz.git
+git clone https://github.com/abouzeyd/faouz.git
 ```
 
 2. Install packages
