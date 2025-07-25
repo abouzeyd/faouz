@@ -6,7 +6,7 @@ import FormEcole from './FormEcole';
 import { useSelector } from 'react-redux';
 
 export default function Modals({ open, handleClose }) {
-  const { valueEdition } = useSelector((state) => state.utilisateur);
+  const { valueEdition } = useSelector((state) => state.ecole);
 
   const modalTitle = valueEdition === 'editer' ? 'Modifier une école' : valueEdition === 'voir' ? 'visualiser' : 'Créer une école';
   return (
