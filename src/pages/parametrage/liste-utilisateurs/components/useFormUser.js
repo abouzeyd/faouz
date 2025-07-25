@@ -62,7 +62,7 @@ export default function useFormUser({ handleClose }) {
 
   useEffect(() => {
     if (valueEdition === 'editer' && utilisateur) {
-      setNameUser(utilisateur.strUtiname || '');
+      setNameUser(utilisateur?.strUtiname || '');
       setLoginUser(utilisateur.strUtilogin || '');
       setEmail(utilisateur.strUtimail || '');
       setPhone(utilisateur.strUtiphone || '');

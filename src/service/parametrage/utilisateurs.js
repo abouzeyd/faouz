@@ -12,7 +12,7 @@ export const createUtilisateur = createAsyncThunk('utilisateurs/createutilisateu
   const token = getValueLocalStorage('user');
   const jsonData = {
     lgUtiid: '',
-    strUtiname: data.nameUser ?? '',
+    strUtiname: data?.nameUser ?? '',
     strUtilogin: data?.loginUser ?? '',
     strUtipassword: data?.password ?? '',
     strUtiphone: data?.phone ?? '',
@@ -37,7 +37,7 @@ export const updateUtilisateur = createAsyncThunk('utilisateurs/updateUtilisateu
   const jsonData = {
     lgUtiid: data?.receiveId.key,
     lgEcoid: data?.selectId ?? '',
-    strUtiname: data.nameUser,
+    strUtiname: data?.nameUser,
     strUtilogin: data?.loginUser,
     strUtiphone: data?.phone,
     strUtimail: data?.email

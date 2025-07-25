@@ -9,6 +9,8 @@ export default function useFormUser({ handleClose }) {
     (state) => state.ecole
   );
 
+  console.log({ valueEdition });
+
   const [nameEcole, setNameEcole] = useState('');
   const [localisation, setLocalisation] = useState('');
   const [email, setEmail] = useState('');
@@ -44,22 +46,22 @@ export default function useFormUser({ handleClose }) {
   };
 
   useEffect(() => {
-    if (valueEdition === 'editer' && receiveEditId) {
-      dispatch(getEcole(receiveEditId));
+    if (valueEdition === 'editer' && receiveId) {
+      dispatch(getEcole(receiveId?.key));
     } else {
       setNameEcole('');
       setLocalisation('');
       setEmail('');
       setPhone('');
     }
-  }, [valueEdition, receiveEditId, dispatch]);
+  }, [valueEdition, receiveId, dispatch]);
 
   useEffect(() => {
     if (valueEdition === 'editer' && ecole) {
-      setNameEcole(ecole.strUtiname || '');
-      setLocalisation(ecole.strUtilogin || '');
-      setEmail(ecole.strUtimail || '');
-      setPhone(ecole.strUtiphone || '');
+      setNameEcole(ecole?.strEcodescription || '');
+      setLocalisation(ecole.strEcolocalisation || '');
+      setEmail(ecole.strEcomail || '');
+      setPhone(ecole.strEcophone || '');
     }
   }, [ecole, valueEdition]);
 

@@ -20,7 +20,17 @@ const initialState = {
 const ecoleSlice = createSlice({
   name: 'ecoles',
   initialState,
-  reducers: {},
+  reducers: {
+    setReceiveId: (state, action) => {
+      state.receiveId = action.payload;
+    },
+    setEdition: (state, action) => {
+      state.valueEdition = action.payload;
+    },
+    setReceiveEditId: (state, action) => {
+      state.receiveEditId = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     // Gestion de getUtilisateurs
     builder.addCase(getUtilisateurs.pending, (state) => {
