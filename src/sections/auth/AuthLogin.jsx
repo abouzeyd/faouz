@@ -4,8 +4,6 @@ import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
@@ -13,11 +11,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { setUsernameValue, setPasswordValue, loginStart, loginSuccess, loginFailure } from '../../store/auth/auth';
-import { useNavigate } from 'react-router-dom';
 
 // third-party
 import * as Yup from 'yup';
@@ -30,69 +25,28 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
-import { useSelector, useDispatch } from 'react-redux';
-import { getNewRoute } from '../../utils/getNewRoute';
-import { connexion } from '../../service/auth';
-import { putInLocalStorage } from '../../service/globalFunction';
 
+import ModalProfilPrivilege from '../../components/ModalMultipleProfil';
+import useAuth from './useAuth';
 // ============================|| JWT - LOGIN ||============================ //
 
 export default function AuthLogin({ isDemo = false }) {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const dispatch = useDispatch();
-  const { authentication } = useSelector((state) => state.auth);
-
-  const [password, setPassword] = React.useState('');
-  const [username, setUsername] = React.useState('');
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleSubmit = async () => {
-    if (username !== 'SADMIN' && password !== '4q%J*W1') {
-      return;
-    }
-
-    try {
-      dispatch(loginStart());
-      const response = await connexion(username, password);
-
-      console.log('Response from connexion:', response);
-
-      if (response.reponse === 'success') {
-        // Sauvegarder dans localStorage via TokenService (déjà fait dans connexion)
-        // ET sauvegarder dans localStorage via putInLocalStorage
-        putInLocalStorage('user', response.data);
-
-        // Mettre à jour le state Redux
-        dispatch(
-          loginSuccess({
-            user: response.data,
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
-          })
-        );
-
-        // Attendre un peu pour s'assurer que tout est sauvegardé
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 100);
-      } else {
-        navigate('/login');
-        dispatch(loginFailure(response.message || 'Échec de la connexion'));
-      }
-    } catch (error) {
-      console.error('Erreur de connexion:', error);
-      navigate('/dashboard');
-      dispatch(loginFailure(error.response?.data?.message || 'Erreur de connexion'));
-    }
-  };
+  const {
+    handleClickShowPassword,
+    handleSubmit,
+    handleCancel,
+    handleMouseDownPassword,
+    handleOk,
+    isModalOpen,
+    setReceiveProfilId,
+    setPassword,
+    setUsername,
+    authentication,
+    getNewRoute,
+    setUsernameValue,
+    setPasswordValue,
+    showPassword
+  } = useAuth();
 
   return (
     <>
@@ -220,6 +174,8 @@ export default function AuthLogin({ isDemo = false }) {
           );
         }}
       </Formik>
+
+      <ModalProfilPrivilege open={isModalOpen} onOk={handleOk} onCancel={handleCancel} setReceiveProfilId={setReceiveProfilId} />
     </>
   );
 }

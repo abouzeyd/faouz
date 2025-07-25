@@ -31,7 +31,7 @@ export const createEcole = createAsyncThunk('ecoles/createEcoles', async (data) 
 export const updateEcole = createAsyncThunk('ecoles/updateEcoles', async (data) => {
   const token = getValueLocalStorage('user');
   const jsonData = {
-    lgEcoid: receiveId.key,
+    lgEcoid: data?.receiveId.key ?? '',
     strEcodescription: data.nameEcole ?? '',
     strEcolocalisation: data?.localisation ?? '',
     strEcomail: data?.email ?? '',
@@ -39,7 +39,7 @@ export const updateEcole = createAsyncThunk('ecoles/updateEcoles', async (data) 
   };
   console.log(token);
 
-  const response = await axios.post(`${BASEURL}/ecole/updateEcole`, jsonData, {
+  const response = await axios.put(`${BASEURL}/ecole/updateEcole`, jsonData, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token?.strUtitoken}`

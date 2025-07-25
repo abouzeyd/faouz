@@ -43,7 +43,7 @@ export default function ListeUtilisateurs() {
   const data = Array.isArray(utilisateurs)
     ? utilisateurs.map((user, idx) => ({
         key: user.lgUtiid || idx,
-        nom: user.strUtiname,
+        nom: user?.strUtiname,
         login: user.strUtilogin,
         email: user.strUtimail,
         telephone: user.strUtiphone

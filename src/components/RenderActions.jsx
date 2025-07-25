@@ -1,5 +1,5 @@
 import React from 'react';
-import { setEdition, setReceiveId } from '../store/parametrage/utilisateur';
+import { setEdition, setReceiveId } from '../store/parametrage/ecole';
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -20,10 +20,10 @@ export default function RenderActions({
         <EditOutlined
           style={{ fontSize: 15, color: 'blue', marginLeft: 52 }}
           onClick={() => {
-            console.log({ record });
             dispatch(setReceiveId(record));
             setEditerBtn(record);
             handleOpenModalEditer(record);
+            dispatch(setEdition('editer'));
           }}
           title="modification"
         />

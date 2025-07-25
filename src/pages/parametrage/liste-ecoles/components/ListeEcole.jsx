@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
 import RenderActions from '../../../../components/RenderActions';
 import { Alert } from 'antd';
-import { setEdition, setReceiveEditId } from '../../../../store/parametrage/utilisateur';
+import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
 import { deleteEcole } from '../../../../service/parametrage/ecole';
 
 export default function ListeEcoles() {
