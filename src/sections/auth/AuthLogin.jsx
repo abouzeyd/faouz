@@ -28,9 +28,19 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 
 import ModalProfilPrivilege from '../../components/ModalMultipleProfil';
 import useAuth from './useAuth';
+// import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 // ============================|| JWT - LOGIN ||============================ //
 
 export default function AuthLogin({ isDemo = false }) {
+  function SimpleAlert() {
+    return (
+      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        Here is a gentle confirmation that your action was successful.
+      </Alert>
+    );
+  }
+
   const {
     handleClickShowPassword,
     handleSubmit,
@@ -45,11 +55,18 @@ export default function AuthLogin({ isDemo = false }) {
     getNewRoute,
     setUsernameValue,
     setPasswordValue,
-    showPassword
-  } = useAuth();
+    showPassword,
+    alertMessage,
+    alertSeverity
+  } = useAuth(SimpleAlert);
 
   return (
     <>
+      {alertMessage && (
+        <Alert severity={alertSeverity} sx={{ mb: 2 }}>
+          {alertMessage}
+        </Alert>
+      )}
       <Formik
         initialValues={{
           username: '',

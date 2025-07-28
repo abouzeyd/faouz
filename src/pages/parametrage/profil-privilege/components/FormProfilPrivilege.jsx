@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import Select from 'react-select';
-import { useFomProfil } from './useFormProfile.';
+import { useFomProfil } from './useFormProfilPrivilege';
 
-export default function FormProfilPrivilege() {
+export default function FormProfilPrivilege({ handleClose }) {
   const {
     setPage,
     options,
@@ -18,25 +18,31 @@ export default function FormProfilPrivilege() {
     totalPages,
     page,
     setReceiveCheckedId,
-    receiveCheckedId
-  } = useFomProfil();
+    receiveCheckedId,
+    listeProfils,
+    setSelctId,
+    selectId,
+    saveEnregistrementProfil,
+    profil
+  } = useFomProfil({ handleClose });
 
-  const handleCheckboxChange = (event) => {
-    const value = event.target.value;
+  const handleCheckboxChange = (_, item) => {
+    console.log({ item });
+
     setReceiveCheckedId(
       (prev) =>
-        prev.includes(value)
-          ? prev.filter((v) => v !== value) // Retirer si déjà présent
-          : [...prev, value] // Ajouter sinon
+        prev.includes(item?.lgPriid)
+          ? prev.filter((v) => v !== item?.lgPriid) // Retirer si déjà présent
+          : [...prev, item?.lgPriid] // Ajouter sinon
     );
   };
 
   console.log({ receiveCheckedId });
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', p: 4 }}>
       <Box sx={{ mr: 5 }}>
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 4 }}>
           <TextField label="Nom du profil" value={name} onChange={(e) => setName(e.target.value)} />
         </Box>
 
@@ -45,28 +51,42 @@ export default function FormProfilPrivilege() {
         </Box>
 
         <Box sx={{ width: 200 }}>
-          <span style={{ marginBottom: '12px' }}>Sélectionner un profil</span>
-          <Select options={options} value={privilege} onChange={setPrivilege} placeholder="choisir un privilège" />
+          <p style={{ marginBottom: '12px' }}>Sélectionner un profil</p>
+          <Select
+            options={options}
+            value={options.find((option) => option.value === selectId)}
+            onChange={(option) => {
+              setSelctId(option ? option.value : '');
+            }}
+            placeholder="choisir un privilège"
+          />
         </Box>
-        <Button variant="contained" sx={{ mt: 6 }}>
+        <Button variant="contained" sx={{ mt: 6 }} onClick={saveEnregistrementProfil}>
           Enregistrer
         </Button>
       </Box>
       <Box sx={{ flex: 1 }}>
         <Box sx={{ backgroundColor: 'white', pl: 5, borderRadius: 1, boxShadow: 1 }}>
           <FormGroup>
-            {paginatedItems.map((item, idx) => (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Checkbox
-                  value={item.value} // ou item.id si tu as un id
-                  onChange={(e) => handleCheckboxChange(e, item)}
-                />
-                <span onClick={(e) => e.stopPropagation()} style={{ cursor: 'default', userSelect: 'none', marginLeft: 55 }}>
-                  {item.label}
-                </span>
+            {/* En-tête de colonnes */}
+            <Box sx={{ display: 'flex', fontWeight: 'bold', mb: 1, mt: 1 }}>
+              <Box sx={{ width: '40px' }} /> {/* espace pour la checkbox */}
+              <Box sx={{ flex: 1, textAlign: 'center', color: 'gray' }}>Nom </Box>
+              <Box sx={{ flex: 1, textAlign: 'center', color: 'gray' }}>Description</Box>
+              <Box sx={{ flex: 1, textAlign: 'center', color: 'gray' }}>Type</Box>
+            </Box>
+
+            {/* Lignes de données */}
+            {paginatedItems.map((item) => (
+              <Box key={item.lgPriid} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <Checkbox checked={receiveCheckedId.includes(item.lgPriid)} onChange={(e) => handleCheckboxChange(e, item)} />
+                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPriname}</Box>
+                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPridescription}</Box>
+                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPritype}</Box>
               </Box>
             ))}
           </FormGroup>
+
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} sx={{ mr: 1 }}>
               {'<<<'}

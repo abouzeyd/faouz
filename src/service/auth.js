@@ -33,7 +33,7 @@ export const connexion = async (STR_UTILOGIN, STR_UTIPASSWORD) => {
 };
 
 export const deconnexion = async (navigate) => {
-  const token = getValueLocalStorage('user').strUtitoken;
+  const token = getValueLocalStorage('user')?.strUtitoken;
   if (!token) {
     navigate('/login', { replace: true });
     return;

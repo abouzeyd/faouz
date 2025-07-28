@@ -31,7 +31,7 @@ class TokenService {
   // Récupérer les informations utilisateur
   static getUser() {
     const user = localStorage.getItem(this.USER_KEY);
-    return user ? JSON.parse(user) : null;
+    return user ? JSON?.parse(user) : null;
   }
 
   // Vérifier si l'utilisateur est connecté
@@ -51,7 +51,7 @@ class TokenService {
     if (!token) return true;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = JSON?.parse(atob(token.split('.')[1]));
       const currentTime = Date.now() / 1000;
       return payload.exp < currentTime;
     } catch (error) {
@@ -64,7 +64,7 @@ class TokenService {
     if (!token) return null;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = JSON?.parse(atob(token.split('.')[1]));
       return payload;
     } catch (error) {
       return null;
