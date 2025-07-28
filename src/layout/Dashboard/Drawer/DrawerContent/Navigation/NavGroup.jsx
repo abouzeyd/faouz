@@ -9,6 +9,8 @@ import NavItem from './NavItem';
 import { useGetMenuMaster } from 'api/menu';
 
 export default function NavGroup({ item }) {
+  console.log({ item });
+
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 

@@ -6,7 +6,7 @@ import ModalEcole from './ModalEcole';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
-import RenderActions from '../../../../components/RenderActions';
+import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
 import { deleteEcole } from '../../../../service/parametrage/ecole';
@@ -16,6 +16,8 @@ export default function ListeEcoles() {
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
   const { listeEcoles, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.ecole);
+
+  console.log({ receiveId });
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -112,7 +114,7 @@ export default function ListeEcoles() {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 200,
+      width: 100,
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),

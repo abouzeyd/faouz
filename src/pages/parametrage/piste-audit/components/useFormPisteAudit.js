@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles, createEcole, getEcole, deleteEcole, updateEcole } from '../../../../service/parametrage/ecole';
+
 // import { createEcole, getEcole, updateEcole, getEcoles } from '../../../../service/parametrage/utilisateurs';
 
 export default function useFormUser({ handleClose }) {

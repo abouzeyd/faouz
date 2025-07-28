@@ -65,3 +65,10 @@ export const getProfil = createAsyncThunk('profil/getProfil', async (data) => {
   const response = await axios.get(`${BASEURL}/profil/getProfil?LG_PROID=${data}`);
   return response.data;
 });
+
+// PISTE AUDIT
+
+export const getPisteAudit = createAsyncThunk('piste/getpiste', async () => {
+  const response = await axios.get(`${BASEURL}/piste/listPiste`);
+  return response.data;
+});
