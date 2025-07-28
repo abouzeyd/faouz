@@ -26,22 +26,3 @@ const ProtectedRoutes = ({ children }) => {
 };
 
 export default ProtectedRoutes;
-
-// /* eslint-disable prettier/prettier */
-// import { Outlet, Navigate } from 'react-router';
-// import { getValueLocalStorage } from '../service/globalFunction';
-
-// const ProtectedRoutes = ({ children }) => {
-//   const user = getValueLocalStorage('user');
-
-//   if (user === null) {
-//     return <Navigate to="/login" replace />;
-//   }
-
-//   if (user !== null) {
-//   }
-
-//   return children || <Outlet />;
-// };
-
-// export default ProtectedRoutes;

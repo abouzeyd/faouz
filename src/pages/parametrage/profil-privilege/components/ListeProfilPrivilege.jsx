@@ -2,20 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../../../../components/DataTable';
 import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
-import ModalEcole from './ModalPisteAudit';
+import ModalUtilisateur from './ModalProfilPrivilege';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEcoles } from '../../../../service/parametrage/ecole';
+import { getProfils, deleteProfil } from '../../../../service/parametrage/listeprofil';
 import RenderActions from '../../../../components/RenderActions';
 import { Alert } from 'antd';
-import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
-import { deleteEcole } from '../../../../service/parametrage/ecole';
+import { setEdition, setReceiveEditId } from '../../../../store/parametrage/profil';
 
-export default function ListeEcoles() {
+export default function ListeUtilisateurs() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeEcoles, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.ecole);
+  const { listeProfils, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.profil);
+
+  console.log({ listeProfils });
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -38,16 +39,16 @@ export default function ListeEcoles() {
   const handleCloseModalEditer = () => setOpenModalEditer(false);
 
   useEffect(() => {
-    dispatch(getEcoles());
+    dispatch(getProfils());
   }, [dispatch]);
 
-  const data = Array.isArray(listeEcoles)
-    ? listeEcoles.map((user, idx) => ({
-        key: user.lgEcoid || idx,
-        nom: user.strEcodescription,
-        localisation: user.strEcolocalisation,
-        email: user.strEcomail,
-        telephone: user.strEcophone
+  const data = Array.isArray(listeProfils)
+    ? listeProfils.map((user, idx) => ({
+        key: user.lgProid || idx,
+        nom: user?.strProname,
+        login: user.strProdescription,
+        email: user.admin,
+        telephone: user.strProtype
       }))
     : [];
 
@@ -58,11 +59,11 @@ export default function ListeEcoles() {
   const filterSaerch = data?.filter((data) => data?.nom?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
-    const response = await dispatch(deleteEcole(receiveId?.key));
+    const response = await dispatch(deleteProfil(receiveId?.key));
 
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
-      dispatch(getEcoles());
+      dispatch(getProfils());
     } else {
       <Alert message="Error Text" type="error" />;
     }
@@ -72,7 +73,7 @@ export default function ListeEcoles() {
 
   const columns = [
     {
-      title: "Nom de l'école",
+      title: 'Nom utilisateur',
       dataIndex: 'nom',
       key: 'nom',
       sorter: (a, b) => a?.nom?.localeCompare(b.nom),
@@ -81,10 +82,10 @@ export default function ListeEcoles() {
       })
     },
     {
-      title: 'Localisation',
-      dataIndex: 'localisation',
-      key: 'localisation',
-      sorter: (a, b) => a?.localisation?.localeCompare(b.localisation),
+      title: 'Login',
+      dataIndex: 'login',
+      key: 'login',
+      sorter: (a, b) => a?.login?.localeCompare(b.login),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
@@ -149,7 +150,7 @@ export default function ListeEcoles() {
         <Box sx={{ width: { xs: '90%', sm: '70%', md: '60%' } }}>
           <TextField
             fullWidth
-            placeholder="Rechercher une piste d'audit"
+            placeholder="Rechercher un profil"
             value={valeur}
             onChange={handleChange}
             sx={{ backgroundColor: 'white', width: { xs: 450, sm: '70%', md: 800 } }}
@@ -169,7 +170,7 @@ export default function ListeEcoles() {
               dispatch(setEdition(''));
             }}
           >
-            Ajouter une piste d'audit
+            Ajouter un profil
           </Button>
         </Box>
       </Box>
@@ -178,7 +179,7 @@ export default function ListeEcoles() {
 
       <DoyouWantDelete open={openModalDelete} handleClose={handleCloseModalDelete} deleteButton={deleteButton} deleteBtn={deleteBtn} />
 
-      <ModalEcole open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
+      <ModalUtilisateur open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
     </div>
   );
 }

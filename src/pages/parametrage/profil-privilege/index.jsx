@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import ListeProfilPivilege from './components/ListeProfilPivilege';
+import ListeProfilPivilege from './components/ListeProfilPrivilege';
 import Container from '../../../components/Container';
 
 export default function ListeProfil() {

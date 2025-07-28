@@ -16,6 +16,8 @@ export default function useAuth() {
   const [username, setUsername] = React.useState('');
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [receiveProfilId, setReceiveProfilId] = React.useState('');
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState('success');
 
   console.log({ receiveProfilId });
 
@@ -44,31 +46,35 @@ export default function useAuth() {
       dispatch(loginStart());
       const response = await connexion(username, password);
 
-      if (response.reponse === 'success') {
+      if (response?.reponse === 'success') {
         // sauvegarder dans localStorage via putInLocalStorage
-        putInLocalStorage('user', response.data);
-        putInLocalStorage('dataChild', response.dataChild);
+        putInLocalStorage('user', response?.data);
+        putInLocalStorage('dataChild', response?.dataChild);
 
         // Mettre à jour le state Redux
         dispatch(
           loginSuccess({
-            user: response.data,
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
+            user: response?.data,
+            accessToken: response?.accessToken,
+            refreshToken: response?.refreshToken
           })
         );
 
         // Attendre un peu pour s'assurer que tout est sauvegardé
-        if (response.dataChild.length !== 0) {
+        if (response?.dataChild?.length === 2) {
           setIsModalOpen(true);
-        } else {
+        } else if (response?.dataChild?.length === 1) {
           setTimeout(() => {
             navigate('/dashboard');
           }, 100);
+        } else {
+          setAlertMessage('Aucun profil associé à cet utilisateur.');
+          setAlertSeverity('error');
+          return;
         }
       } else {
         navigate('/login');
-        dispatch(loginFailure(response.message || 'Échec de la connexion'));
+        dispatch(loginFailure(response?.message || 'Échec de la connexion'));
       }
     } catch (error) {
       console.error('Erreur de connexion:', error);
@@ -90,6 +96,8 @@ export default function useAuth() {
     getNewRoute,
     setUsernameValue,
     setPasswordValue,
-    showPassword
+    showPassword,
+    alertMessage,
+    alertSeverity
   };
 }

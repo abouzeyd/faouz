@@ -1,5 +1,5 @@
 import React from 'react';
-import { setEdition, setReceiveId } from '../store/parametrage/ecole';
+import { setEdition, setReceiveId } from '../store/parametrage/profil';
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
