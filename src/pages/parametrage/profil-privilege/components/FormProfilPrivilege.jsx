@@ -23,12 +23,11 @@ export default function FormProfilPrivilege({ handleClose }) {
     setSelctId,
     selectId,
     saveEnregistrementProfil,
-    profil
+    profil,
+    valueEdition
   } = useFomProfil({ handleClose });
 
   const handleCheckboxChange = (_, item) => {
-    console.log({ item });
-
     setReceiveCheckedId(
       (prev) =>
         prev.includes(item?.lgPriid)
@@ -36,8 +35,6 @@ export default function FormProfilPrivilege({ handleClose }) {
           : [...prev, item?.lgPriid] // Ajouter sinon
     );
   };
-
-  console.log({ receiveCheckedId });
 
   return (
     <Box sx={{ display: 'flex', p: 4 }}>
@@ -67,6 +64,12 @@ export default function FormProfilPrivilege({ handleClose }) {
       </Box>
       <Box sx={{ flex: 1 }}>
         <Box sx={{ backgroundColor: 'white', pl: 5, borderRadius: 1, boxShadow: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10, marginRight: 25 }}>
+            <Button variant="contained" sx={{ mt: 4 }} disabled={valueEdition === 'editer' ? false : true}>
+              Enregistrer
+            </Button>
+          </div>
+
           <FormGroup>
             {/* En-tête de colonnes */}
             <Box sx={{ display: 'flex', fontWeight: 'bold', mb: 1, mt: 1 }}>
@@ -99,9 +102,9 @@ export default function FormProfilPrivilege({ handleClose }) {
             </Button>
           </Box>
         </Box>
-        <Button variant="contained" sx={{ mt: 6 }}>
+        {/* <Button variant="contained" sx={{ mt: 6 }} disabled={valueEdition === 'editer' ? false : true}>
           Enregistrer
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

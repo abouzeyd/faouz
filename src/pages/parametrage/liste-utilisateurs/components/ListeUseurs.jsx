@@ -6,7 +6,7 @@ import ModalUtilisateur from './ModalUtilisateur';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUtilisateurs, deleteUtilisateur } from '../../../../service/parametrage/utilisateurs';
-import RenderActions from '../../../../components/RenderActions';
+import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/utilisateur';
 
@@ -111,7 +111,7 @@ export default function ListeUtilisateurs() {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 200,
+      width: 100,
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),

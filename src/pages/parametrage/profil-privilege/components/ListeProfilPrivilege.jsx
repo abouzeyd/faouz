@@ -6,7 +6,7 @@ import ModalUtilisateur from './ModalProfilPrivilege';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfils, deleteProfil } from '../../../../service/parametrage/listeprofil';
-import RenderActions from '../../../../components/RenderActions';
+import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/profil';
 
@@ -73,7 +73,7 @@ export default function ListeUtilisateurs() {
 
   const columns = [
     {
-      title: 'Nom utilisateur',
+      title: 'Nom du profil',
       dataIndex: 'nom',
       key: 'nom',
       sorter: (a, b) => a?.nom?.localeCompare(b.nom),
@@ -82,7 +82,7 @@ export default function ListeUtilisateurs() {
       })
     },
     {
-      title: 'Login',
+      title: 'Description',
       dataIndex: 'login',
       key: 'login',
       sorter: (a, b) => a?.login?.localeCompare(b.login),
@@ -90,17 +90,9 @@ export default function ListeUtilisateurs() {
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
+
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      sorter: (a, b) => a?.email?.localeCompare(b.email),
-      onHeaderCell: () => ({
-        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-      })
-    },
-    {
-      title: 'Téléphone',
+      title: 'Profils',
       dataIndex: 'telephone',
       key: 'telephone',
       sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
@@ -113,7 +105,7 @@ export default function ListeUtilisateurs() {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 200,
+      width: 100,
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),

@@ -4,7 +4,7 @@ import ListePisteAudit from './components/ListePisteAudit';
 import Container from '../../../components/Container';
 
 export default function ListeAudit() {
-  const title = "Piste d'audit";
+  const title = "Piste d'audite";
   return (
     <div>
       <Container TitlePage={title}>

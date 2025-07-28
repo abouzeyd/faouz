@@ -10,12 +10,13 @@ import RenderActions from '../../../../components/RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
 import { deleteEcole } from '../../../../service/parametrage/ecole';
+import { getPisteAudit } from '../../../../service/parametrage/listeprofil';
 
 export default function ListeEcoles() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeEcoles, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.ecole);
+  const { listeEcoles, loading, error, utilisateurupdate, receiveId, pisteAudit } = useSelector((state) => state.ecole);
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -41,8 +42,8 @@ export default function ListeEcoles() {
     dispatch(getEcoles());
   }, [dispatch]);
 
-  const data = Array.isArray(listeEcoles)
-    ? listeEcoles.map((user, idx) => ({
+  const data = Array.isArray(pisteAudit)
+    ? pisteAudit.map((user, idx) => ({
         key: user.lgEcoid || idx,
         nom: user.strEcodescription,
         localisation: user.strEcolocalisation,
@@ -72,7 +73,7 @@ export default function ListeEcoles() {
 
   const columns = [
     {
-      title: "Nom de l'école",
+      title: 'Libellé',
       dataIndex: 'nom',
       key: 'nom',
       sorter: (a, b) => a?.nom?.localeCompare(b.nom),
@@ -97,40 +98,44 @@ export default function ListeEcoles() {
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
-    },
-    {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
-      onHeaderCell: () => ({
-        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-      })
-    },
-
-    {
-      title: 'Actions',
-      key: 'actions',
-      fixed: 'right',
-      width: 200,
-      onHeaderCell: () => ({
-        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-      }),
-      render: (_, record) => {
-        return (
-          <RenderActions
-            loading={loading}
-            record={record}
-            setEditerBtn={setEditerBtn}
-            handleOpenModalEditer={handleOpenModalEditer}
-            handleVoir={handleVoir}
-            setDeleteBtn={setDeleteBtn}
-            handleOpenModalDelete={handleOpenModalDelete}
-          />
-        );
-      }
     }
+    // {
+    //   title: 'Téléphone',
+    //   dataIndex: 'telephone',
+    //   key: 'telephone',
+    //   sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
+    //   onHeaderCell: () => ({
+    //     style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+    //   })
+    // }
+
+    // {
+    //   title: 'Actions',
+    //   key: 'actions',
+    //   fixed: 'right',
+    //   width: 200,
+    //   onHeaderCell: () => ({
+    //     style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+    //   }),
+    //   render: (_, record) => {
+    //     return (
+    //       <RenderActions
+    //         loading={loading}
+    //         record={record}
+    //         setEditerBtn={setEditerBtn}
+    //         handleOpenModalEditer={handleOpenModalEditer}
+    //         handleVoir={handleVoir}
+    //         setDeleteBtn={setDeleteBtn}
+    //         handleOpenModalDelete={handleOpenModalDelete}
+    //       />
+    //     );
+    //   }
+    // }
   ];
+
+  useEffect(() => {
+    dispatch(getPisteAudit());
+  }, []);
 
   return (
     <div>
@@ -149,13 +154,13 @@ export default function ListeEcoles() {
         <Box sx={{ width: { xs: '90%', sm: '70%', md: '60%' } }}>
           <TextField
             fullWidth
-            placeholder="Rechercher une piste d'audit"
+            placeholder="Rechercher une piste d'audite"
             value={valeur}
             onChange={handleChange}
             sx={{ backgroundColor: 'white', width: { xs: 450, sm: '70%', md: 800 } }}
           />
         </Box>
-        <Box>
+        {/* <Box>
           <Button
             variant="contained"
             color="primary"
@@ -171,7 +176,7 @@ export default function ListeEcoles() {
           >
             Ajouter une piste d'audit
           </Button>
-        </Box>
+        </Box> */}
       </Box>
 
       <DataTable data={filterSaerch} loading={loading} error={error} columns={columns} />

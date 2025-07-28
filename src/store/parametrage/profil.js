@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUtilisateurs, createUtilisateur, getUtilisateur, updateUtilisateur } from '../../service/parametrage/utilisateurs';
+import { getPisteAudit } from '../../service/parametrage/listeprofil';
 import { getProfils, getProfil } from '../../service/parametrage/listeprofil';
 import { Label } from '@mui/icons-material';
 // import { Label } from '@mui/icons-material';
@@ -15,7 +16,8 @@ const initialState = {
   profil: {},
   receiveId: {},
   utilisateurupdate: [],
-  listeProfils: []
+  listeProfils: [],
+  pisteAudit: []
 };
 
 const utilisateurSlice = createSlice({
@@ -98,20 +100,23 @@ const utilisateurSlice = createSlice({
       .addCase(getProfils.fulfilled, (state, action) => {
         state.loading = false;
         state.listeProfils = action.payload;
-
-        // if (action?.payload.length > 0) {
-        //   let profil = [];
-
-        //   action?.payload.forEach((element) => {
-        //     profil.push({
-        //       label: element?.strProtype,
-        //       value: element?.lgProid
-        //     });
-        //   });
-        //   state.listeProfils = profil;
-        // }
       })
       .addCase(getProfils.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+
+    // PISTE AUDITE
+
+    builder
+      .addCase(getPisteAudit.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getPisteAudit.fulfilled, (state, action) => {
+        state.loading = false;
+        state.pisteAudit = action.payload;
+      })
+      .addCase(getPisteAudit.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
