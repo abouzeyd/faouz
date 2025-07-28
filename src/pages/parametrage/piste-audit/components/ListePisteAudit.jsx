@@ -11,12 +11,13 @@ import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
 import { deleteEcole } from '../../../../service/parametrage/ecole';
 import { getPisteAudit } from '../../../../service/parametrage/listeprofil';
+import { formatGlobalDate } from '../../../../service/globalFunction';
 
 export default function ListeEcoles() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeEcoles, loading, error, utilisateurupdate, receiveId, pisteAudit } = useSelector((state) => state.ecole);
+  const { loading, error, receiveId, pisteAudit } = useSelector((state) => state.profil);
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -44,11 +45,11 @@ export default function ListeEcoles() {
 
   const data = Array.isArray(pisteAudit)
     ? pisteAudit.map((user, idx) => ({
-        key: user.lgEcoid || idx,
-        nom: user.strEcodescription,
-        localisation: user.strEcolocalisation,
-        email: user.strEcomail,
-        telephone: user.strEcophone
+        key: user.lgPisid || idx,
+        nom: user.strPislibelle,
+        localisation: user.lgUticreatedid,
+        email: user.strPistype,
+        date_create: formatGlobalDate(user.dtPiscreated)
       }))
     : [];
 
@@ -82,7 +83,7 @@ export default function ListeEcoles() {
       })
     },
     {
-      title: 'Localisation',
+      title: 'Utilisateur',
       dataIndex: 'localisation',
       key: 'localisation',
       sorter: (a, b) => a?.localisation?.localeCompare(b.localisation),
@@ -91,46 +92,23 @@ export default function ListeEcoles() {
       })
     },
     {
-      title: 'Email',
+      title: 'Type piste',
       dataIndex: 'email',
       key: 'email',
       sorter: (a, b) => a?.email?.localeCompare(b.email),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date_create',
+      key: 'date_create',
+      sorter: (a, b) => a?.date_create?.localeCompare(b.date_create),
+      onHeaderCell: () => ({
+        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+      })
     }
-    // {
-    //   title: 'Téléphone',
-    //   dataIndex: 'telephone',
-    //   key: 'telephone',
-    //   sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
-    //   onHeaderCell: () => ({
-    //     style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-    //   })
-    // }
-
-    // {
-    //   title: 'Actions',
-    //   key: 'actions',
-    //   fixed: 'right',
-    //   width: 200,
-    //   onHeaderCell: () => ({
-    //     style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-    //   }),
-    //   render: (_, record) => {
-    //     return (
-    //       <RenderActions
-    //         loading={loading}
-    //         record={record}
-    //         setEditerBtn={setEditerBtn}
-    //         handleOpenModalEditer={handleOpenModalEditer}
-    //         handleVoir={handleVoir}
-    //         setDeleteBtn={setDeleteBtn}
-    //         handleOpenModalDelete={handleOpenModalDelete}
-    //       />
-    //     );
-    //   }
-    // }
   ];
 
   useEffect(() => {
@@ -160,23 +138,6 @@ export default function ListeEcoles() {
             sx={{ backgroundColor: 'white', width: { xs: 450, sm: '70%', md: 800 } }}
           />
         </Box>
-        {/* <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              paddingX: 3,
-              paddingY: 1,
-              width: { xs: 'auto', sm: 'auto' }
-            }}
-            onClick={() => {
-              setOpenModalEditer(true);
-              dispatch(setEdition(''));
-            }}
-          >
-            Ajouter une piste d'audit
-          </Button>
-        </Box> */}
       </Box>
 
       <DataTable data={filterSaerch} loading={loading} error={error} columns={columns} />

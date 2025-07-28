@@ -7,7 +7,6 @@ import ProtectsRoutes from '../utils/ProtectsRoutes';
 
 // render- Dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
-// const Home = Loadable(lazy(() => import('../pages/home/index')));
 const ListeUtilisateurs = Loadable(lazy(() => import('../pages/parametrage/liste-utilisateurs')));
 const ListePisteAudit = Loadable(lazy(() => import('../pages/parametrage/piste-audit')));
 const ListeProfilPrivilege = Loadable(lazy(() => import('../pages/parametrage/profil-privilege')));
@@ -31,14 +30,6 @@ const MainRoutes = {
         </ProtectsRoutes>
       )
     },
-    // {
-    //   path: 'home',
-    //   element: (
-    //     <ProtectsRoutes>
-    //       <Home />
-    //     </ProtectsRoutes>
-    //   )
-    // },
     {
       path: 'liste-utilisateurs',
       element: (
