@@ -1,7 +1,7 @@
 import React from 'react';
 import { setEdition, setReceiveId } from '../../../../store/parametrage/utilisateur';
 import { useDispatch } from 'react-redux';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 
 export default function RenderActions({
   loading,
@@ -10,13 +10,24 @@ export default function RenderActions({
   handleOpenModalEditer,
   handleVoir,
   setDeleteBtn,
-  handleOpenModalDelete
+  handleOpenModalDelete,
+  handleOpenModalProfilUser
 }) {
   const dispatch = useDispatch();
 
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px' }}>
+        <UsergroupAddOutlined
+          style={{ fontSize: 15, color: 'green', marginLeft: 2, marginRight: 12 }}
+          onClick={() => {
+            dispatch(setReceiveId(record));
+            setEditerBtn(record);
+            handleOpenModalProfilUser(record);
+            // dispatch(setEdition('editer'));
+          }}
+          title="ajouter un profil à l'utilisateur"
+        />
         <EditOutlined
           style={{ fontSize: 15, color: 'blue', marginLeft: 2 }}
           onClick={() => {

@@ -61,7 +61,7 @@ export default function useAuth() {
         );
 
         // Attendre un peu pour s'assurer que tout est sauvegardé
-        if (response?.dataChild?.length === 2) {
+        if (response?.dataChild?.length > 1) {
           setIsModalOpen(true);
         } else if (response?.dataChild?.length === 1) {
           setTimeout(() => {
