@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUtilisateurs, createUtilisateur, getUtilisateur, updateUtilisateur } from '../../service/parametrage/utilisateurs';
 import { getEcoles } from '../../service/parametrage/ecole';
-import { Label } from '@mui/icons-material';
-// import { Label } from '@mui/icons-material';
+import { getProfils } from '../../service/parametrage/listeprofil';
 
 const initialState = {
   utilisateurs: [],
@@ -15,7 +14,8 @@ const initialState = {
   utilisateur: {},
   receiveId: {},
   utilisateurupdate: [],
-  listeEcoles: []
+  listeEcoles: [],
+  listeProfils: []
 };
 
 const utilisateurSlice = createSlice({
@@ -114,6 +114,16 @@ const utilisateurSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       });
+
+    builder.addCase(getProfils.fulfilled, (state, action) => {
+      state.createLoading = false;
+      // Optionnel : ajouter le nouvel utilisateur à la liste
+      state.listeProfils = action.payload;
+    });
+    builder.addCase(getProfils.rejected, (state, action) => {
+      state.createError = action.error.message;
+      state.createLoading = false;
+    });
   }
 });
 

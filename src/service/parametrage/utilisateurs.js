@@ -70,3 +70,25 @@ export const getUtilisateur = createAsyncThunk('utilisateurs/getUtilisateur', as
   const response = await axios.get(`${BASEURL}/utilisateur/getUtilisateur?LG_UTIID=${data}`);
   return response.data;
 });
+
+// Create profil user
+
+export const createProfilUtilisateur = createAsyncThunk('profilUser/createProfilUser', async (data, thunkAPI) => {
+  const state = thunkAPI.getState();
+
+  const receiveId = state.utilisateur.receiveId;
+
+  const token = getValueLocalStorage('user');
+  const jsonData = {
+    lgId: receiveId?.key,
+    listids: data
+  };
+
+  const response = await axios.post(`${BASEURL}/profilUser/saveProfilsUser`, jsonData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token?.strUtitoken}`
+    }
+  });
+  return response.data;
+});

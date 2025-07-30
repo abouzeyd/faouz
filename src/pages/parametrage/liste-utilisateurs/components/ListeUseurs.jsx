@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import DataTable from '../../../../components/DataTable';
 import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
 import ModalUtilisateur from './ModalUtilisateur';
+import ModalProfilUtilisateur from './ModalProfilUtilisateur';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUtilisateurs, deleteUtilisateur } from '../../../../service/parametrage/utilisateurs';
@@ -25,6 +26,7 @@ export default function ListeUtilisateurs() {
   // Edition
   const [editerBtn, setEditerBtn] = useState('');
   const [openModalEditer, setOpenModalEditer] = useState(false);
+  const [openModalProfilUser, setOpenModalProfilUser] = useState(false);
 
   //
   const handleOpenModalEditer = (record) => {
@@ -33,8 +35,13 @@ export default function ListeUtilisateurs() {
     setOpenModalEditer(true);
   };
 
+  const handleOpenModalProfilUser = (record) => {
+    dispatch(setReceiveEditId(record?.key));
+    setOpenModalProfilUser(true);
+  };
   //
   const handleCloseModalEditer = () => setOpenModalEditer(false);
+  const handleCloseModalProfilUser = () => setOpenModalProfilUser(false);
 
   useEffect(() => {
     dispatch(getUtilisateurs());
@@ -111,7 +118,7 @@ export default function ListeUtilisateurs() {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 100,
+      width: 150,
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),
@@ -125,6 +132,7 @@ export default function ListeUtilisateurs() {
             handleVoir={handleVoir}
             setDeleteBtn={setDeleteBtn}
             handleOpenModalDelete={handleOpenModalDelete}
+            handleOpenModalProfilUser={handleOpenModalProfilUser}
           />
         );
       }
@@ -178,6 +186,12 @@ export default function ListeUtilisateurs() {
       <DoyouWantDelete open={openModalDelete} handleClose={handleCloseModalDelete} deleteButton={deleteButton} deleteBtn={deleteBtn} />
 
       <ModalUtilisateur open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
+      <ModalProfilUtilisateur
+        open={openModalProfilUser}
+        handleClose={handleCloseModalProfilUser}
+        editerBtn={editerBtn}
+        setEditerBtn={setEditerBtn}
+      />
     </div>
   );
 }
