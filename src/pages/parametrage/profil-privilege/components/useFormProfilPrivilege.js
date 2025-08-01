@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfil, getProfils, updateProfil, getProfil } from '../../../../service/parametrage/listeprofil';
-import { getPrivileges } from '../../../../service/parametrage/privilege';
+import { getPrivileges, createProfilPrivilege } from '../../../../service/parametrage/privilege';
 
 export function useFomProfil({ handleClose }) {
   const { listeProfils, createLoading, createError, receiveEditId, valueEdition, receiveId, profil } = useSelector((state) => state.profil);
@@ -73,6 +73,15 @@ export function useFomProfil({ handleClose }) {
     dispatch(getPrivileges());
   }, []);
 
+  const SaveProfilPrivilege = async () => {
+    const response = await dispatch(createProfilPrivilege(receiveCheckedId));
+    if (response.payload.reponse === 'success') {
+      handleClose();
+    } else {
+      return;
+    }
+  };
+
   return {
     setPage,
     options,
@@ -94,6 +103,7 @@ export function useFomProfil({ handleClose }) {
     saveEnregistrementProfil,
     getProfil,
     profil,
-    valueEdition
+    valueEdition,
+    SaveProfilPrivilege
   };
 }

@@ -5,6 +5,7 @@ import { BASEURL } from './serveur';
 import TokenService from './tokenService';
 import { getValueLocalStorage } from '../service/globalFunction';
 import { purgeStorage } from '../service/globalFunction';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Fonction de connexion améliorée
 export const connexion = async (STR_UTILOGIN, STR_UTIPASSWORD) => {
@@ -52,11 +53,13 @@ export const deconnexion = async (navigate) => {
     navigate('/login', { replace: true });
     purgeStorage('user');
     purgeStorage('persist:auth');
+    purgeStorage('generateMenu');
     return;
   } catch (error) {
     navigate('/login', { replace: true });
     purgeStorage('user');
     purgeStorage('persist:auth');
+    purgeStorage('generateMenu');
     return;
   }
 };
@@ -109,4 +112,22 @@ export const checkAuthStatus = () => {
 
   console.log('checkAuthStatus - User is authenticated');
   return { isAuthenticated: true, user };
+};
+
+// GENERATION DE MENU
+
+export const generateMenu = async (data) => {
+  const token = getValueLocalStorage('user')?.strUtitoken;
+
+  try {
+    const response = await axios.get(`${BASEURL}/privilege/generermenu?LG_PROID=${data}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error('Erreur lors de la génération du menu :', error);
+    throw error; // ou return null;
+  }
 };

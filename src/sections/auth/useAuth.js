@@ -3,7 +3,7 @@ import { setUsernameValue, setPasswordValue, loginStart, loginSuccess, loginFail
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getNewRoute } from '../../utils/getNewRoute';
-import { connexion } from '../../service/auth';
+import { connexion, generateMenu } from '../../service/auth';
 import { putInLocalStorage } from '../../service/globalFunction';
 
 export default function useAuth() {
@@ -62,8 +62,15 @@ export default function useAuth() {
 
         // Attendre un peu pour s'assurer que tout est sauvegardé
         if (response?.dataChild?.length > 1) {
+          const responses = await generateMenu(response?.dataChild[0]?.lgProid);
+          putInLocalStorage('generateMenu', responses?.data);
           setIsModalOpen(true);
         } else if (response?.dataChild?.length === 1) {
+          console.log('response', response?.dataChild[0]?.lgProid);
+
+          const responses = await generateMenu(response?.dataChild[0]?.lgProid);
+          putInLocalStorage('generateMenu', responses?.data);
+          // localStorage.setItem('generateMenu', JSON.stringify(responses?.data));
           setTimeout(() => {
             navigate('/dashboard');
           }, 100);

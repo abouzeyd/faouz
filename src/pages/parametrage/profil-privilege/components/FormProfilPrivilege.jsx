@@ -24,17 +24,27 @@ export default function FormProfilPrivilege({ handleClose }) {
     selectId,
     saveEnregistrementProfil,
     profil,
-    valueEdition
+    valueEdition,
+    SaveProfilPrivilege
   } = useFomProfil({ handleClose });
 
   const handleCheckboxChange = (_, item) => {
-    setReceiveCheckedId(
-      (prev) =>
-        prev.includes(item?.lgPriid)
-          ? prev.filter((v) => v !== item?.lgPriid) // Retirer si déjà présent
-          : [...prev, item?.lgPriid] // Ajouter sinon
-    );
+    const { checked } = _.target;
+    console.log({ checked });
+
+    if (checked) {
+      setReceiveCheckedId((prev) => [...prev, item.lgPriid]);
+    } else {
+      setReceiveCheckedId(
+        (prev) =>
+          prev.includes(item?.lgPriid)
+            ? prev.filter((v) => v !== item?.lgPriid) // Retirer si déjà présent
+            : [...prev, item?.lgPriid] // Ajouter sinon
+      );
+    }
   };
+
+  console.log({ options });
 
   return (
     <Box sx={{ display: 'flex', p: 4 }}>
@@ -65,7 +75,7 @@ export default function FormProfilPrivilege({ handleClose }) {
       <Box sx={{ flex: 1 }}>
         <Box sx={{ backgroundColor: 'white', pl: 5, borderRadius: 1, boxShadow: 1 }}>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10, marginRight: 25 }}>
-            <Button variant="contained" sx={{ mt: 4 }} disabled={valueEdition === 'editer' ? false : true}>
+            <Button variant="contained" sx={{ mt: 4 }} disabled={valueEdition === 'editer' ? false : true} onClick={SaveProfilPrivilege}>
               Enregistrer des privilèges
             </Button>
           </div>
