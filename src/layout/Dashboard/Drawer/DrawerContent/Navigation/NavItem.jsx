@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { Link, useLocation, matchPath } from 'react-router-dom';
@@ -22,10 +22,6 @@ import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
 export default function NavItem({ item, level, isParents = false, setSelectedID }) {
-  console.log({ item });
-  console.log({ level });
-  console.log({ isParents });
-  console.log({ setSelectedID });
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
