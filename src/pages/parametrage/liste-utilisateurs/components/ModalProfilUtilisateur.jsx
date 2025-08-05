@@ -9,10 +9,6 @@ import { ListeProfilUser } from './ListeProfilUser';
 export default function ModalProfilUtilisateur({ open, handleClose }) {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getProfils());
-  }, []);
-
   const modalTitle = 'Liste des profils';
   return (
     <div>

@@ -14,9 +14,9 @@ export default function ListeUtilisateurs() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeProfils, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.profil);
+  const { listeProfils, loading, error, utilisateurupdate, receiveId, receiveChecked } = useSelector((state) => state.profil);
 
-  console.log({ listeProfils });
+  console.log({ receiveChecked });
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -35,12 +35,7 @@ export default function ListeUtilisateurs() {
     setOpenModalEditer(true);
   };
 
-  //
   const handleCloseModalEditer = () => setOpenModalEditer(false);
-
-  useEffect(() => {
-    dispatch(getProfils());
-  }, [dispatch]);
 
   const data = Array.isArray(listeProfils)
     ? listeProfils.map((user, idx) => ({

@@ -17,7 +17,8 @@ const initialState = {
   receiveId: {},
   utilisateurupdate: [],
   listeProfils: [],
-  pisteAudit: []
+  pisteAudit: [],
+  receiveChecked: {}
 };
 
 const utilisateurSlice = createSlice({
@@ -33,6 +34,10 @@ const utilisateurSlice = createSlice({
 
     setReceiveId: (state, action) => {
       state.receiveId = action.payload;
+    },
+
+    setReceiveChecked: (state, action) => {
+      state.receiveChecked = action.payload;
     },
 
     setEdition: (state, action) => {
@@ -100,6 +105,7 @@ const utilisateurSlice = createSlice({
       .addCase(getProfils.fulfilled, (state, action) => {
         state.loading = false;
         state.listeProfils = action.payload;
+        state.receiveChecked = action.payload;
       })
       .addCase(getProfils.rejected, (state, action) => {
         state.loading = false;
@@ -123,5 +129,6 @@ const utilisateurSlice = createSlice({
   }
 });
 
-export const { setUtilisateurs, clearCreateError, setEdition, setReceiveEditId, setReceiveId } = utilisateurSlice.actions;
+export const { setUtilisateurs, clearCreateError, setEdition, setReceiveEditId, setReceiveId, setReceiveChecked } =
+  utilisateurSlice.actions;
 export default utilisateurSlice.reducer;

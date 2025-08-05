@@ -7,7 +7,7 @@ const DashboardLayout = Loadable(lazy(() => import('layout/Dashboard')));
 import ProtectsRoutes from '../utils/ProtectsRoutes';
 
 // render- Dashboard
-const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
+const DashboardDefault = Loadable(lazy(() => import('../pages/dashboard/default')));
 const ListeUtilisateurs = Loadable(lazy(() => import('../pages/parametrage/liste-utilisateurs')));
 const ListePisteAudit = Loadable(lazy(() => import('../pages/parametrage/piste-audit')));
 const ListeProfilPrivilege = Loadable(lazy(() => import('../pages/parametrage/profil-privilege')));

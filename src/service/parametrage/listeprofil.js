@@ -3,8 +3,14 @@ import axios from 'axios';
 import { BASEURL } from '../serveur';
 import { getValueLocalStorage } from '../globalFunction';
 
-export const getProfils = createAsyncThunk('profil/getprofils', async () => {
-  const response = await axios.get(`${BASEURL}/profil/listProfil`);
+export const getProfils = createAsyncThunk('profil/getprofils', async (data) => {
+  const token = getValueLocalStorage('user');
+  const response = await axios.get(`${BASEURL}/profilUser/listProfilsUser?LG_UTIID=${data}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token?.strUtitoken}`
+    }
+  });
   return response.data;
 });
 

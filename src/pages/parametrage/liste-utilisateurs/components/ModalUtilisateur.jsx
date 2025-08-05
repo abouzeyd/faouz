@@ -14,7 +14,7 @@ export default function Modals({ open, handleClose }) {
     <div>
       <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box>
-          <Box className="modals">
+          <Box className="modales">
             <DialogTitle className="titleModal">
               {modalTitle}
               <IconButton

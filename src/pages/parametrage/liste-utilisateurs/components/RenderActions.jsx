@@ -2,6 +2,8 @@ import React from 'react';
 import { setEdition, setReceiveId } from '../../../../store/parametrage/utilisateur';
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { getProfils } from '../../../../service/parametrage/listeprofil';
+import { setReceiveChecked } from '../../../../store/parametrage/profil';
 
 export default function RenderActions({
   loading,
@@ -20,11 +22,15 @@ export default function RenderActions({
       <div style={{ display: 'flex', gap: '8px' }}>
         <UsergroupAddOutlined
           style={{ fontSize: 15, color: 'green', marginLeft: 2, marginRight: 12 }}
-          onClick={() => {
+          onClick={async () => {
             dispatch(setReceiveId(record));
             setEditerBtn(record);
             handleOpenModalProfilUser(record);
-            // dispatch(setEdition('editer'));
+            const result = await dispatch(getProfils(record?.key));
+
+            // console.log({ result });
+
+            dispatch(setReceiveChecked(result.payload));
           }}
           title="ajouter un profil à l'utilisateur"
         />

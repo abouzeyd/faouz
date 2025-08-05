@@ -66,13 +66,11 @@ export default function useAuth() {
           putInLocalStorage('generateMenu', responses?.data);
           setIsModalOpen(true);
         } else if (response?.dataChild?.length === 1) {
-          console.log('response', response?.dataChild[0]?.lgProid);
-
           const responses = await generateMenu(response?.dataChild[0]?.lgProid);
           putInLocalStorage('generateMenu', responses?.data);
-          // localStorage.setItem('generateMenu', JSON.stringify(responses?.data));
+          navigate('/dashboard');
           setTimeout(() => {
-            navigate('/dashboard');
+            window.location.reload();
           }, 100);
         } else {
           setAlertMessage('Aucun profil associé à cet utilisateur.');
