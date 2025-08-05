@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogTitle, Typography, IconButton, Button, Checkbox } from '@mui/material';
 import { createProfilUtilisateur } from '../../../../service/parametrage/utilisateurs';
@@ -23,9 +23,14 @@ export const ListeProfilUser = ({ handleClose }) => {
 
   const handleSaveProfil = () => {
     dispatch(createProfilUtilisateur(receiveCheckedId));
+    handleClose();
   };
 
-  console.log({ receiveCheckedId });
+  useEffect(() => {
+    const initialChecked = listeProfils.filter((profil) => profil.checked === true).map((profil) => profil.lgProid);
+
+    setReceiveCheckedId(initialChecked);
+  }, [listeProfils]);
 
   return (
     <div>
@@ -50,11 +55,17 @@ export const ListeProfilUser = ({ handleClose }) => {
           borderTop: '1px solid #ccc'
         }}
       >
-        <Button variant="contained" sx={{ bgcolor: 'red', mr: 2 }} onClick={handleClose}>
-          Annueler
+        <Button
+          variant="contained"
+          sx={{ bgcolor: 'red', mr: 2 }}
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          Annuler
         </Button>
         <Button variant="contained" onClick={handleSaveProfil}>
-          Enregister
+          Enregistrer
         </Button>
       </div>
     </div>

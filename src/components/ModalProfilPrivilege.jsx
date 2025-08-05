@@ -13,7 +13,7 @@ export default function Modals({ open, handleClose, editerBtn, setEditerBtn }) {
     <div>
       <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box>
-          <Box className="modalsProfilPrivilege">
+          <Box className="modalsProfilPrivilege" sx={{ width: 9000 }}>
             <DialogTitle className="titleModal">
               {modalTitle}
               <IconButton

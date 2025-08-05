@@ -44,8 +44,6 @@ export default function FormProfilPrivilege({ handleClose }) {
     }
   };
 
-  console.log({ options });
-
   return (
     <Box sx={{ display: 'flex', p: 4 }}>
       <Box sx={{ mr: 5 }}>
