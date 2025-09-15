@@ -2,22 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../../../../components/DataTable';
 import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
-import ModalUtilisateur from './ModalProfilPrivilege';
+import ModalChambre from './ModalChambre';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfils, deleteProfil } from '../../../../service/parametrage/listeprofil';
-import { getPrivileges } from '../../../../service/parametrage/privilege';
+import { getChambres, deleteChambre } from '../../../../service/parametrage/chambres';
 import RenderActions from './RenderActions';
 import { Alert } from 'antd';
-import { setEdition, setReceiveEditId, setReceiveCheckedId } from '../../../../store/parametrage/profil';
+import { setEdition, setReceiveEditId } from '../../../../store/parametrage/utilisateur';
 
 export default function ListeUtilisateurs() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeProfils, loading, error, utilisateurupdate, receiveId, receiveChecked } = useSelector((state) => state.profil);
-
-  console.log({ listeProfils });
+  const { utilisateurs, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.utilisateur);
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -28,6 +25,7 @@ export default function ListeUtilisateurs() {
   // Edition
   const [editerBtn, setEditerBtn] = useState('');
   const [openModalEditer, setOpenModalEditer] = useState(false);
+  const [openModalProfilUser, setOpenModalProfilUser] = useState(false);
 
   //
   const handleOpenModalEditer = (record) => {
@@ -36,15 +34,26 @@ export default function ListeUtilisateurs() {
     setOpenModalEditer(true);
   };
 
+  const handleOpenModalProfilUser = (record) => {
+    dispatch(setReceiveEditId(record?.key));
+    setOpenModalProfilUser(true);
+  };
+  //
   const handleCloseModalEditer = () => setOpenModalEditer(false);
+  const handleCloseModalProfilUser = () => setOpenModalProfilUser(false);
 
-  const data = Array.isArray(listeProfils)
-    ? listeProfils.map((user, idx) => ({
-        key: user.lgProid || idx,
-        nom: user?.strProname,
-        login: user.strProdescription,
-        email: user.admin,
-        telephone: user.strProtype
+  useEffect(() => {
+    dispatch(getChambres());
+  }, [dispatch]);
+
+  const data = Array.isArray(utilisateurs)
+    ? utilisateurs.map((user, idx) => ({
+        key: user.lgUtiid || idx,
+        batiment: user?.batiment,
+        desc: user.desc,
+        numLit: user.numLit,
+        nbrechambre: user.nbrechambre,
+        chefchambre: user.chefchambre
       }))
     : [];
 
@@ -52,50 +61,54 @@ export default function ListeUtilisateurs() {
     setValeur(event.target.value);
   };
 
-  const filterSaerch = data?.filter((data) => data?.nom?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
+  const filterSaerch = data?.filter((data) => data?.batiment?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
-    const response = await dispatch(deleteProfil(receiveId?.key));
+    const response = await dispatch(deleteChambre(receiveId?.key));
 
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
-      dispatch(getProfils());
+      dispatch(getChambres());
     } else {
       <Alert message="Error Text" type="error" />;
     }
   };
 
-  useEffect(() => {
-    dispatch(getProfils());
-  }, []);
-
   const handleVoir = (row) => {};
 
   const columns = [
     {
-      title: 'Nom du profil',
-      dataIndex: 'nom',
-      key: 'nom',
-      sorter: (a, b) => a?.nom?.localeCompare(b.nom),
+      title: 'Batiment',
+      dataIndex: 'batiment',
+      key: 'batiment',
+      sorter: (a, b) => a?.batiment?.localeCompare(b.batiment),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Description',
-      dataIndex: 'login',
-      key: 'login',
-      sorter: (a, b) => a?.login?.localeCompare(b.login),
+      dataIndex: 'desc',
+      key: 'desc',
+      sorter: (a, b) => a?.desc?.localeCompare(b.desc),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
-
     {
-      title: 'Profils',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
+      title: 'Nombre de personne dans la chambre',
+      dataIndex: 'nbrechambre',
+      key: 'nbrechambre',
+      sorter: (a, b) => a?.nbrechambre?.localeCompare(b.nbrechambre),
+      onHeaderCell: () => ({
+        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+      })
+    },
+    {
+      title: 'chef de chambre',
+      dataIndex: 'chefchambre',
+      key: 'chefchambre',
+      sorter: (a, b) => a?.chefchambre?.localeCompare(b.chefchambre),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
@@ -105,7 +118,7 @@ export default function ListeUtilisateurs() {
       title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 100,
+      width: 150,
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),
@@ -119,6 +132,7 @@ export default function ListeUtilisateurs() {
             handleVoir={handleVoir}
             setDeleteBtn={setDeleteBtn}
             handleOpenModalDelete={handleOpenModalDelete}
+            handleOpenModalProfilUser={handleOpenModalProfilUser}
           />
         );
       }
@@ -142,7 +156,7 @@ export default function ListeUtilisateurs() {
         <Box sx={{ width: { xs: '90%', sm: '70%', md: '60%' } }}>
           <TextField
             fullWidth
-            placeholder="Rechercher un profil"
+            placeholder="Rechercher un utilisateur"
             value={valeur}
             onChange={handleChange}
             sx={{ backgroundColor: 'white', width: { xs: 450, sm: '70%', md: 800 } }}
@@ -160,10 +174,9 @@ export default function ListeUtilisateurs() {
             onClick={() => {
               setOpenModalEditer(true);
               dispatch(setEdition(''));
-              dispatch(getPrivileges());
             }}
           >
-            Ajouter un profil
+            Ajouter une chambre
           </Button>
         </Box>
       </Box>
@@ -172,7 +185,7 @@ export default function ListeUtilisateurs() {
 
       <DoyouWantDelete open={openModalDelete} handleClose={handleCloseModalDelete} deleteButton={deleteButton} deleteBtn={deleteBtn} />
 
-      <ModalUtilisateur open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
+      <ModalChambre open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
     </div>
   );
 }

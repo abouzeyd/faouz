@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { setEdition, setReceiveId, setListePrivilegeId } from '../../../../store/parametrage/profil';
+import { setEdition, setReceiveId } from '../../../../store/parametrage/utilisateur';
 import { useDispatch } from 'react-redux';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { getProfils } from '../../../../service/parametrage/listeprofil';
+import { setReceiveChecked } from '../../../../store/parametrage/profil';
 
 export default function RenderActions({
   loading,
@@ -11,7 +13,8 @@ export default function RenderActions({
   handleOpenModalEditer,
   handleVoir,
   setDeleteBtn,
-  handleOpenModalDelete
+  handleOpenModalDelete,
+  handleOpenModalProfilUser
 }) {
   const dispatch = useDispatch();
 
@@ -25,7 +28,6 @@ export default function RenderActions({
             setEditerBtn(record);
             handleOpenModalEditer(record);
             dispatch(setEdition('editer'));
-            dispatch(setListePrivilegeId(record?.key));
           }}
           title="modification"
         />

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASEURL } from '../serveur';

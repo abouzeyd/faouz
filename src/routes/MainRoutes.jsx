@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { lazy } from 'react';
 
 // project imports
@@ -12,6 +13,8 @@ const ListeUtilisateurs = Loadable(lazy(() => import('../pages/parametrage/liste
 const ListePisteAudit = Loadable(lazy(() => import('../pages/parametrage/piste-audit')));
 const ListeProfilPrivilege = Loadable(lazy(() => import('../pages/parametrage/profil-privilege')));
 const ListeEcole = Loadable(lazy(() => import('../pages/parametrage/liste-ecoles')));
+const ListeChambres = Loadable(lazy(() => import('../pages/parametrage/chambre')));
+const ListeEleves = Loadable(lazy(() => import('../pages/parametrage/eleves')));
 
 // render - color
 
@@ -60,6 +63,22 @@ const MainRoutes = {
       element: (
         <ProtectsRoutes>
           <ListeEcole />
+        </ProtectsRoutes>
+      )
+    },
+    {
+      path: 'chambre',
+      element: (
+        <ProtectsRoutes>
+          <ListeChambres />
+        </ProtectsRoutes>
+      )
+    },
+    {
+      path: 'eleves',
+      element: (
+        <ProtectsRoutes>
+          <ListeEleves />
         </ProtectsRoutes>
       )
     }

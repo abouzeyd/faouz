@@ -1,10 +1,13 @@
+/* eslint-disable prettier/prettier */
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfil, getProfils, updateProfil, getProfil } from '../../../../service/parametrage/listeprofil';
 import { getPrivileges, createProfilPrivilege } from '../../../../service/parametrage/privilege';
 
 export function useFomProfil({ handleClose }) {
-  const { listeProfils, createLoading, createError, receiveEditId, valueEdition, receiveId, profil } = useSelector((state) => state.profil);
+  const { listeProfils, createLoading, createError, receiveEditId, valueEdition, receiveId, profil, listePrivilegeId } = useSelector(
+    (state) => state.profil
+  );
   const { listePrivileges } = useSelector((state) => state.privilege);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -18,6 +21,8 @@ export function useFomProfil({ handleClose }) {
     { label: 'METIER', value: 'METIER' },
     { label: 'SYSTEME', value: 'SYSTEME' }
   ];
+
+  console.log({ listePrivilegeId });
 
   const itermsPerPage = 5;
   const totalPages = Math.ceil(listePrivileges.length / itermsPerPage);
@@ -70,7 +75,9 @@ export function useFomProfil({ handleClose }) {
   }, [profil, valueEdition]);
 
   useEffect(() => {
-    dispatch(getPrivileges());
+    if (valueEdition === 'editer' && profil) {
+      dispatch(getPrivileges(listePrivilegeId));
+    }
   }, []);
 
   const SaveProfilPrivilege = async () => {

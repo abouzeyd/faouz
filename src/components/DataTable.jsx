@@ -1,14 +1,19 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'antd';
 import '../styles/parametrage/listeUser.css';
 
 export default function DataTable({ data, loading, error, onRefresh, columns }) {
-  //
+  const [valueChecked, setValueChecked] = useState([]);
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
+  const checkBox = {
+    valueChecked,
+    onChange: (firstChecked) => {
+      setValueChecked(firstChecked);
+    }
   };
+
+  console.log({ valueChecked });
 
   // Gestion de l'erreur
   if (error) {
@@ -24,8 +29,7 @@ export default function DataTable({ data, loading, error, onRefresh, columns }) 
         <Table
           columns={columns}
           dataSource={data}
-          onChange={onChange}
-          rowSelection={true}
+          rowSelection={checkBox}
           className="dataTable"
           loading={loading}
           pagination={{
@@ -55,8 +59,7 @@ export default function DataTable({ data, loading, error, onRefresh, columns }) 
         <Table
           columns={columns}
           dataSource={data}
-          onChange={onChange}
-          rowSelection={true}
+          rowSelection={checkBox}
           className="dataTable"
           loading={loading}
           pagination={{

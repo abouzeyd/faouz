@@ -30,7 +30,6 @@ export default function FormProfilPrivilege({ handleClose }) {
 
   const handleCheckboxChange = (_, item) => {
     const { checked } = _.target;
-    console.log({ checked });
 
     if (checked) {
       setReceiveCheckedId((prev) => [...prev, item.lgPriid]);
@@ -43,6 +42,31 @@ export default function FormProfilPrivilege({ handleClose }) {
       );
     }
   };
+
+  console.log({ valueEdition });
+
+  useEffect(() => {
+    if (valueEdition === 'editer') {
+      const receiveValue = paginatedItems.filter((item) => item?.checked === true).map((array) => array.lgPriid);
+
+      setReceiveCheckedId((prev) => {
+        const isSame = prev.length === receiveValue.length && prev.every((val) => receiveValue.includes(val));
+
+        return isSame ? prev : receiveValue;
+      });
+    } else {
+      setReceiveCheckedId([]); // en mode création, vider la sélection
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valueEdition, paginatedItems]);
+
+  // useEffect(() => {
+  //   if (receiveCheckedId.length === 0) {
+  //     const receiveValue = paginatedItems.filter((item) => item?.checked === true).map((array) => array.lgPriid);
+  //     setReceiveCheckedId(receiveValue);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [paginatedItems]);
 
   return (
     <Box sx={{ display: 'flex', p: 4 }}>

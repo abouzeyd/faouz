@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createSlice } from '@reduxjs/toolkit';
 import { getUtilisateurs, createUtilisateur, getUtilisateur, updateUtilisateur } from '../../service/parametrage/utilisateurs';
 import { getPisteAudit } from '../../service/parametrage/listeprofil';
@@ -18,7 +19,9 @@ const initialState = {
   utilisateurupdate: [],
   listeProfils: [],
   pisteAudit: [],
-  receiveChecked: {}
+  receiveChecked: {},
+  listePrivilegeId: {},
+  receiveCheckedId: []
 };
 
 const utilisateurSlice = createSlice({
@@ -30,6 +33,10 @@ const utilisateurSlice = createSlice({
     },
     setReceiveEditId: (state, action) => {
       state.receiveEditId = action.payload;
+    },
+
+    setReceiveCheckedId: (state, action) => {
+      state.receiveCheckedId = action.payload;
     },
 
     setReceiveId: (state, action) => {
@@ -45,6 +52,9 @@ const utilisateurSlice = createSlice({
     },
     clearCreateError: (state) => {
       state.createError = null;
+    },
+    setListePrivilegeId: (state, action) => {
+      state.listePrivilegeId = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -129,6 +139,14 @@ const utilisateurSlice = createSlice({
   }
 });
 
-export const { setUtilisateurs, clearCreateError, setEdition, setReceiveEditId, setReceiveId, setReceiveChecked } =
-  utilisateurSlice.actions;
+export const {
+  setUtilisateurs,
+  clearCreateError,
+  setEdition,
+  setReceiveEditId,
+  setReceiveId,
+  setReceiveChecked,
+  setListePrivilegeId,
+  setReceiveCheckedId
+} = utilisateurSlice.actions;
 export default utilisateurSlice.reducer;
