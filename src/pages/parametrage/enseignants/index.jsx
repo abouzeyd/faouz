@@ -4,7 +4,7 @@ import ListeEleve from './components/ListeEnseignant';
 import Container from '../../../components/Container';
 
 export default function ListeEleves() {
-  const title = 'Liste des élèves';
+  const title = 'Liste des enseignants';
   return (
     <div>
       <Container TitlePage={title}>

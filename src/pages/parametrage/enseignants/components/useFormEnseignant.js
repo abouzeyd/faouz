@@ -14,46 +14,46 @@ export default function useFormUser({ handleClose }) {
 
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
-  const [numeroParent, setNumeroParent] = useState('');
+  const [numero, setNumero] = useState('');
   const [dateNaissance, setDateNaissance] = useState('');
-  const [selectTypeEleveId, setSelectTypeEleveId] = useState('');
+  const [anneeEnseignement, setAnneeEnseignement] = useState('');
   const [selectGenreEleveId, setSelectGenreEleveId] = useState('');
 
   const handleSubmit = async () => {
     if (
       !nom.trim() ||
       !prenom.trim() ||
-      !numeroParent.trim() ||
+      !numero.trim() ||
       !dateNaissance.trim() ||
-      !selectTypeEleveId.trim() ||
-      !selectGenreEleveId.trim()
+      !selectGenreEleveId.trim() ||
+      anneeEnseignement.trim()
     ) {
     }
     if (valueEdition === '') {
-      const result = await dispatch(createChambre({ nom, prenom, numeroParent, dateNaissance, selectTypeEleveId, selectGenreEleveId }));
+      const result = await dispatch(createChambre({ nom, prenom, numero, dateNaissance, selectGenreEleveId, anneeEnseignement }));
 
       if (createChambre.fulfilled.match(result)) {
         await dispatch(getChambres());
         handleClose();
         setNom('');
         setPrenom('');
-        setNumeroParent('');
+        setNumero('');
         setDateNaissance('');
-        setSelectTypeEleveId('');
         setSelectGenreEleveId('');
+        setAnneeEnseignement('');
       }
     } else if (valueEdition === 'editer') {
-      const result = await dispatch(updateChambre({ nom, prenom, numeroParent, dateNaissance, selectTypeEleveId, selectGenreEleveId }));
+      const result = await dispatch(updateChambre({ nom, prenom, numero, dateNaissance, selectGenreEleveId, anneeEnseignement }));
 
       if (updateChambre.fulfilled.match(result)) {
         await dispatch(getChambres());
         handleClose();
         setNom('');
         setPrenom('');
-        setNumeroParent('');
+        setNumero('');
         setDateNaissance('');
-        setSelectTypeEleveId('');
         setSelectGenreEleveId('');
+        setAnneeEnseignement('');
       }
     }
   };
@@ -64,10 +64,10 @@ export default function useFormUser({ handleClose }) {
     } else {
       setNom('');
       setPrenom('');
-      setNumeroParent('');
+      setNumero('');
       setDateNaissance('');
-      setSelectTypeEleveId('');
       setSelectGenreEleveId('');
+      setAnneeEnseignement('');
     }
   }, [valueEdition, receiveEditId, dispatch]);
 
@@ -75,8 +75,7 @@ export default function useFormUser({ handleClose }) {
     if (valueEdition === 'editer' && utilisateur) {
       setNom(utilisateur?.strUtiname || '');
       setPrenom(utilisateur.strUtilogin || '');
-      setSelectTypeEleveId(utilisateur?.lgEcoid);
-      setNumeroParent('***************');
+      setNumero('***************');
     }
   }, [utilisateur, valueEdition]);
 
@@ -90,18 +89,18 @@ export default function useFormUser({ handleClose }) {
     setNom,
     prenom,
     setPrenom,
-    numeroParent,
-    setNumeroParent,
+    numero,
+    setNumero,
     dateNaissance,
     setDateNaissance,
-    selectTypeEleveId,
-    setSelectTypeEleveId,
     selectGenreEleveId,
     setSelectGenreEleveId,
     createLoading,
     createError,
     valueEdition,
     listeEcoles,
-    user
+    user,
+    anneeEnseignement,
+    setAnneeEnseignement
   };
 }

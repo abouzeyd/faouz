@@ -11,19 +11,19 @@ export default function FormUtilisateur({ handleClose }) {
     setNom,
     prenom,
     setPrenom,
-    numeroParent,
-    setNumeroParent,
+    numero,
+    setNumero,
     dateNaissance,
     setDateNaissance,
-    selectTypeEleveId,
-    setSelectTypeEleveId,
     selectGenreEleveId,
     setSelectGenreEleveId,
     createLoading,
     createError,
     valueEdition,
     listeEcoles,
-    user
+    user,
+    anneeEnseignement,
+    setAnneeEnseignement
   } = useFormEleve({ handleClose });
 
   return (
@@ -67,15 +67,15 @@ export default function FormUtilisateur({ handleClose }) {
           </div>
           <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
             <label htmlFor="numparent" className="form-label fw-bold">
-              Numéro parent
+              Numéro de l'enseignant
             </label>
             <input
               type="text"
               className="form-control"
               id="numparent"
-              placeholder="Numéro parent"
-              value={numeroParent}
-              onChange={(e) => setNumeroParent(e.target.value)}
+              placeholder="Numéro de l'enseignant"
+              value={numero}
+              onChange={(e) => setNumero(e.target.value)}
               disabled={createLoading}
             />
           </div>
@@ -87,13 +87,12 @@ export default function FormUtilisateur({ handleClose }) {
               type="date"
               className="form-control"
               id="text"
-              placeholder="Nombre de personne dans la chambre"
-              value={selectTypeEleveId}
-              onChange={(e) => setSelectTypeEleveId(e.target.value)}
+              value={dateNaissance}
+              onChange={(e) => setDateNaissance(e.target.value)}
               disabled={createLoading}
             />
           </div>
-          <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
+          {/* <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
             <label htmlFor="phone" className="form-label fw-bold">
               Type d'élève
             </label>
@@ -105,7 +104,7 @@ export default function FormUtilisateur({ handleClose }) {
               }}
               isDisabled={user === '01' ? false : true}
             />
-          </div>
+          </div> */}
           <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
             <label htmlFor="phone" className="form-label fw-bold">
               Genre
@@ -117,6 +116,19 @@ export default function FormUtilisateur({ handleClose }) {
                 setSelectGenreEleveId(option ? option.value : '');
               }}
               isDisabled={user === '01' ? false : true}
+            />
+          </div>
+          <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
+            <label htmlFor="anneeenseignement" className="form-label fw-bold">
+              Année d'enseignement
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="anneeenseignement"
+              value={anneeEnseignement}
+              onChange={(e) => setAnneeEnseignement(e.target.value)}
+              disabled={createLoading}
             />
           </div>
         </div>

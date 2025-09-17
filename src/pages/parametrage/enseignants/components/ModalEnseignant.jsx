@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 export default function Modals({ open, handleClose }) {
   const { valueEdition } = useSelector((state) => state.utilisateur);
 
-  const modalTitle = valueEdition === 'editer' ? 'Modifier un élève' : valueEdition === 'voir' ? 'visualiser' : 'Créer un élève';
+  const modalTitle = valueEdition === 'editer' ? 'Modifier un enseignant' : valueEdition === 'voir' ? 'visualiser' : 'Créer un enseignant';
   return (
     <div>
       <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">

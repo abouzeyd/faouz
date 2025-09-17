@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getChambres, deleteChambre } from '../../../../service/parametrage/chambres';
 import RenderActions from './RenderActions';
 import { Alert } from 'antd';
-import { setEdition, setReceiveEditId } from '../../../../store/parametrage/utilisateur';
+import { setEdition, setReceiveEditId } from '../../../../store/parametrage/chambre';
 
-export default function ListeUtilisateurs() {
+export default function ListeChambres() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { utilisateurs, loading, error, utilisateurupdate, receiveId } = useSelector((state) => state.utilisateur);
+  const { chambres, loading, error, receiveEditId, receiveId } = useSelector((state) => state.chambre);
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -46,13 +46,13 @@ export default function ListeUtilisateurs() {
     dispatch(getChambres());
   }, [dispatch]);
 
-  const data = Array.isArray(utilisateurs)
-    ? utilisateurs.map((user, idx) => ({
-        key: user.lgUtiid || idx,
-        batiment: user?.batiment,
-        desc: user.desc,
-        numLit: user.numLit,
-        nbrechambre: user.nbrechambre,
+  const data = Array.isArray(chambres)
+    ? chambres.map((user, idx) => ({
+        key: user.lgChaid || idx,
+        batiment: user?.strChanumbat,
+        desc: user.strChadescription,
+        numLit: user.strChanumlit,
+        nbrechambre: user.strChanombre,
         chefchambre: user.chefchambre
       }))
     : [];
@@ -61,7 +61,9 @@ export default function ListeUtilisateurs() {
     setValeur(event.target.value);
   };
 
-  const filterSaerch = data?.filter((data) => data?.batiment?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
+  console.log({ data });
+
+  const filterSaerch = data?.filter((data) => data?.desc?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
     const response = await dispatch(deleteChambre(receiveId?.key));

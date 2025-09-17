@@ -7,8 +7,8 @@ import { getValueLocalStorage } from '../../../../service/globalFunction';
 
 export default function useFormUser({ handleClose }) {
   const dispatch = useDispatch();
-  const { createLoading, createError, receiveEditId, valueEdition, utilisateur, receiveId, listeEcoles } = useSelector(
-    (state) => state.utilisateur
+  const { createLoading, createError, receiveEditId, valueEdition, chambre, receiveId, listeEcoles } = useSelector(
+    (state) => state.chambre
   );
   const user = getValueLocalStorage('user')?.lgUtiid;
 
@@ -17,6 +17,8 @@ export default function useFormUser({ handleClose }) {
   const [nmbrpersonnedansChambre, setNmbrpersonnedansChambre] = useState('');
   const [selectId, setSelectId] = useState('');
 
+  console.log({ valueEdition });
+
   const handleSubmit = async () => {
     if (!batiment.trim() || !description.trim() || !nmbrpersonnedansChambre.trim()) {
     }
@@ -24,6 +26,7 @@ export default function useFormUser({ handleClose }) {
       const result = await dispatch(createChambre({ batiment, description, nmbrpersonnedansChambre, selectId }));
 
       if (createChambre.fulfilled.match(result)) {
+        alert('hello');
         await dispatch(getChambres());
         handleClose();
         setBatiment('');
@@ -31,7 +34,7 @@ export default function useFormUser({ handleClose }) {
         setNmbrpersonnedansChambre('');
       }
     } else if (valueEdition === 'editer') {
-      const result = await dispatch(updateChambre({ batiment, description, nmbrpersonnedansChambre, receiveId, selectId }));
+      const result = await dispatch(updateChambre({ batiment, description, nmbrpersonnedansChambre, receiveId, selectId, receiveEditId }));
 
       if (updateChambre.fulfilled.match(result)) {
         await dispatch(getChambres());
@@ -54,13 +57,13 @@ export default function useFormUser({ handleClose }) {
   }, [valueEdition, receiveEditId, dispatch]);
 
   useEffect(() => {
-    if (valueEdition === 'editer' && utilisateur) {
-      setBatiment(utilisateur?.strUtiname || '');
-      setDescription(utilisateur.strUtilogin || '');
-      setSelectId(utilisateur?.lgEcoid);
+    if (valueEdition === 'editer' && chambre) {
+      setBatiment(chambre?.strChanumbat || '');
+      setDescription(chambre.strChadescription || '');
+      setSelectId(chambre?.lgEcoid);
       setNmbrpersonnedansChambre('***************');
     }
-  }, [utilisateur, valueEdition]);
+  }, [chambre, valueEdition]);
 
   useEffect(() => {
     dispatch(getEcoles());

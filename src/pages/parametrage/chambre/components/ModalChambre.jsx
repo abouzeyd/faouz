@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { DialogTitle, TextField, IconButton, Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -7,9 +7,9 @@ import FormChambre from './FormChambre';
 import { useSelector } from 'react-redux';
 
 export default function Modals({ open, handleClose }) {
-  const { valueEdition } = useSelector((state) => state.utilisateur);
+  const { valueEdition } = useSelector((state) => state.chambre);
 
-  const modalTitle = valueEdition === 'editer' ? 'Modifier une chambre' : valueEdition === 'voir' ? 'visualiser' : 'Créer une chambre';
+  const modalTitle = valueEdition === 'editer' ? 'Modifier une chambre' : 'Créer une chambre';
   return (
     <div>
       <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">

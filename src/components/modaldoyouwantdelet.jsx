@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';

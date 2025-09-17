@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { setEdition } from '../../../../store/parametrage/utilisateur';
+import { setEdition } from '../../../../store/parametrage/chambre';
 import Select from 'react-select';
 import useFormUser from './useFormChambre';
 

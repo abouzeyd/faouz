@@ -7,6 +7,7 @@ import utilisateurReducer from './parametrage/utilisateur';
 import ecoleReducer from './parametrage/ecole';
 import profilReducer from './parametrage/profil';
 import privilegeReducer from './parametrage/privilege';
+import chambreReducer from './parametrage/chambre';
 
 const persistConfig = {
   key: 'auth',
@@ -22,7 +23,8 @@ export const store = configureStore({
     utilisateur: utilisateurReducer,
     ecole: ecoleReducer,
     profil: profilReducer,
-    privilege: privilegeReducer
+    privilege: privilegeReducer,
+    chambre: chambreReducer
   }
 });
 

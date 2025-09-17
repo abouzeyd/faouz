@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../../../../components/DataTable';
 import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
-import ModalEleve from './ModalEnseignant';
+import ModalEnseignant from './ModalEnseignant';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChambres, deleteChambre } from '../../../../service/parametrage/chambres';
@@ -51,9 +51,10 @@ export default function ListeEleve() {
         key: user.lgUtiid || idx,
         nom: user?.nom,
         prenom: user.prenom,
-        numLit: user.numLit,
-        numeroParent: user.numeroParent,
-        chefchambre: user.chefchambre
+        numero: user.numero,
+        dateNaissance: user.dateNaissance,
+        anneeEnseignement: user.anneeEnseignement,
+        selectGenreEleveId: user.selectGenreEleveId
       }))
     : [];
 
@@ -78,7 +79,7 @@ export default function ListeEleve() {
 
   const columns = [
     {
-      title: `Nom de l'élève`,
+      title: `Nom de l'enseignant`,
       dataIndex: 'nom',
       key: 'nom',
       sorter: (a, b) => a?.nom?.localeCompare(b.nom),
@@ -87,7 +88,7 @@ export default function ListeEleve() {
       })
     },
     {
-      title: `Prénom de l'élève`,
+      title: `Prénom de l'enseignant`,
       dataIndex: 'prenom',
       key: 'prenom',
       sorter: (a, b) => a?.prenom?.localeCompare(b.prenom),
@@ -96,28 +97,28 @@ export default function ListeEleve() {
       })
     },
     {
-      title: 'Numéro parent',
-      dataIndex: 'numeroParent',
-      key: 'numeroParent',
-      sorter: (a, b) => a?.numeroParent?.localeCompare(b.numeroParent),
+      title: 'Numéro ',
+      dataIndex: 'numero',
+      key: 'numero',
+      sorter: (a, b) => a?.numero?.localeCompare(b.numero),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Date de naissance',
-      dataIndex: 'chefchambre',
-      key: 'chefchambre',
-      sorter: (a, b) => a?.chefchambre?.localeCompare(b.chefchambre),
+      dataIndex: 'dateNaissance',
+      key: 'dateNaissance',
+      sorter: (a, b) => a?.dateNaissance?.localeCompare(b.dateNaissance),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
-      title: `Type d'élève`,
-      dataIndex: 'selectTypeEleveId',
-      key: 'selectTypeEleveId',
-      sorter: (a, b) => a?.selectTypeEleveId?.localeCompare(b.selectTypeEleveId),
+      title: `Année d'enseignement`,
+      dataIndex: 'anneeEnseignement',
+      key: 'anneeEnseignement',
+      sorter: (a, b) => a?.anneeEnseignement?.localeCompare(b.anneeEnseignement),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
@@ -194,7 +195,7 @@ export default function ListeEleve() {
               dispatch(setEdition(''));
             }}
           >
-            Ajouter un élève
+            Ajouter un enseignant
           </Button>
         </Box>
       </Box>
@@ -203,7 +204,7 @@ export default function ListeEleve() {
 
       <DoyouWantDelete open={openModalDelete} handleClose={handleCloseModalDelete} deleteButton={deleteButton} deleteBtn={deleteBtn} />
 
-      <ModalEleve open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
+      <ModalEnseignant open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
     </div>
   );
 }

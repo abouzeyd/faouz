@@ -15,6 +15,7 @@ const ListeProfilPrivilege = Loadable(lazy(() => import('../pages/parametrage/pr
 const ListeEcole = Loadable(lazy(() => import('../pages/parametrage/liste-ecoles')));
 const ListeChambres = Loadable(lazy(() => import('../pages/parametrage/chambre')));
 const ListeEleves = Loadable(lazy(() => import('../pages/parametrage/eleves')));
+const ListeEnseignants = Loadable(lazy(() => import('../pages/parametrage/enseignants')));
 
 // render - color
 
@@ -79,6 +80,14 @@ const MainRoutes = {
       element: (
         <ProtectsRoutes>
           <ListeEleves />
+        </ProtectsRoutes>
+      )
+    },
+    {
+      path: 'enseignant',
+      element: (
+        <ProtectsRoutes>
+          <ListeEnseignants />
         </ProtectsRoutes>
       )
     }

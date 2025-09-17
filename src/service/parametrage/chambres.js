@@ -21,12 +21,11 @@ export const createChambre = createAsyncThunk('chambre/saveChambre', async (data
   const token = getValueLocalStorage('user');
 
   const jsonData = {
-    lgUtiid: '',
-    strChaBatiment: data?.batiment ?? '',
-    StrChadescription: data?.description ?? '',
-    strChaNombre: data?.nmbrpersonnedansChambre ?? '',
-    lgEcoid: data?.selectId ?? '',
-
+    lgChaid: '',
+    lgEleid: data?.selectId ?? '',
+    strChadescription: data?.description ?? '',
+    strChanumbat: data?.batiment ?? '',
+    // strChanumbat: data?.nmbrpersonnedansChambre ?? '',
     strChanumlit: 'test'
   };
 
@@ -42,13 +41,13 @@ export const createChambre = createAsyncThunk('chambre/saveChambre', async (data
 export const updateChambre = createAsyncThunk('chambre/updateChambre', async (data) => {
   const token = getValueLocalStorage('user');
   const jsonData = {
-    lgUtiid: data?.receiveId.key,
-    strChaBatiment: data?.batiment ?? '',
-    StrChadescription: data?.description ?? '',
-    strChaNombre: data?.nmbrpersonnedansChambre ?? '',
+    lgEleid: data?.receiveId.key,
+    strChanumbat: data?.batiment ?? '',
+    strChadescription: data?.description ?? '',
+    strChanbrelit: data?.nmbrpersonnedansChambre ?? '',
     lgEcoid: data?.selectId ?? '',
-
-    strChanumlit: 'test'
+    lgChaid: data?.receiveEditId,
+    strEleve: 'test'
   };
   const response = await axios.put(`${BASEURL}/chambre/updateChambre`, jsonData, {
     headers: {
@@ -62,7 +61,7 @@ export const updateChambre = createAsyncThunk('chambre/updateChambre', async (da
 export const deleteChambre = createAsyncThunk('chambre/deleteChambre', async (data) => {
   const token = getValueLocalStorage('user');
   const response = await axios.put(
-    `${BASEURL}/chambre/deleteChambre?LG_UTIID=${data}`,
+    `${BASEURL}/chambre/deleteChambre?LG_CHAID=${data}`,
     {},
     {
       headers: {
@@ -75,6 +74,6 @@ export const deleteChambre = createAsyncThunk('chambre/deleteChambre', async (da
 });
 
 export const getChambre = createAsyncThunk('chambre/getChambre', async (data) => {
-  const response = await axios.get(`${BASEURL}/chambre/getChambre?LG_UTIID=${data}`);
+  const response = await axios.get(`${BASEURL}/chambre/getChambre?LG_CHAID=${data}`);
   return response.data;
 });
