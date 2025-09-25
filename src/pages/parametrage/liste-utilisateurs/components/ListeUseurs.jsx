@@ -10,6 +10,7 @@ import { getUtilisateurs, deleteUtilisateur } from '../../../../service/parametr
 import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/utilisateur';
+import toast from 'react-hot-toast';
 
 export default function ListeUtilisateurs() {
   // Start State Area
@@ -69,8 +70,9 @@ export default function ListeUtilisateurs() {
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
       dispatch(getUtilisateurs());
+      toast.success(response?.payload?.message);
     } else {
-      <Alert message="Error Text" type="error" />;
+      toast.success(response?.payload?.message);
     }
   };
 

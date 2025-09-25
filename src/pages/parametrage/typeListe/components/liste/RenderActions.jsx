@@ -1,21 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { setEdition, setReceiveId } from '../../../../store/parametrage/chambre';
+import { setEdition, setReceiveId, setEditeListe } from '../../../../../store/parametrage/typeListe';
 import { useDispatch } from 'react-redux';
-import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
-import { getProfils } from '../../../../service/parametrage/listeprofil';
-import { setReceiveChecked } from '../../../../store/parametrage/profil';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getListe } from '../../../../../service/parametrage/typeListe';
 
-export default function RenderActions({
-  loading,
-  record,
-  setEditerBtn,
-  handleOpenModalEditer,
-  handleVoir,
-  setDeleteBtn,
-  handleOpenModalDelete,
-  handleOpenModalProfilUser
-}) {
+export default function RenderActions({ loading, record, setEditerBtn, handleVoir, setDeleteBtn, handleOpenModalDelete }) {
   const dispatch = useDispatch();
 
   return (
@@ -26,8 +16,8 @@ export default function RenderActions({
           onClick={() => {
             dispatch(setReceiveId(record));
             setEditerBtn(record);
-            handleOpenModalEditer(record);
-            dispatch(setEdition('editer'));
+            dispatch(getListe(record?.key));
+            dispatch(setEditeListe('edition'));
           }}
           title="modification"
         />

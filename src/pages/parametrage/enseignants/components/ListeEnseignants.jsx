@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../../../../components/DataTable';
 import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
-import ModalChambre from './ModalEleve';
+import ModalChambre from './ModalEnseignants';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEleves, deleteEleve } from '../../../../service/parametrage/eleves';
@@ -189,7 +189,7 @@ export default function ListeEleve() {
               dispatch(setEdition(''));
             }}
           >
-            Enregistrer un élève
+            Enregistrer un enseignant
           </Button>
         </Box>
       </Box>

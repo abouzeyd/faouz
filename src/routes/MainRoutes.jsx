@@ -16,6 +16,7 @@ const ListeEcole = Loadable(lazy(() => import('../pages/parametrage/liste-ecoles
 const ListeChambres = Loadable(lazy(() => import('../pages/parametrage/chambre')));
 const ListeEleves = Loadable(lazy(() => import('../pages/parametrage/eleves')));
 const ListeEnseignants = Loadable(lazy(() => import('../pages/parametrage/enseignants')));
+const TypeListe = Loadable(lazy(() => import('../pages/parametrage/typeListe')));
 
 // render - color
 
@@ -88,6 +89,14 @@ const MainRoutes = {
       element: (
         <ProtectsRoutes>
           <ListeEnseignants />
+        </ProtectsRoutes>
+      )
+    },
+    {
+      path: 'type-liste',
+      element: (
+        <ProtectsRoutes>
+          <TypeListe />
         </ProtectsRoutes>
       )
     }

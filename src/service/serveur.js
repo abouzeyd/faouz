@@ -4,7 +4,7 @@ const SERVEUR = {
   PORT: '9000',
   PROTOCOL: window.location.protocol + '//',
   // RAPHAEL: '192.168.1.18'
-  // RAPHAEL: '192.168.1.15'
+  // RAPHAEL: 'aboutrikaDev'
   HERMANN: 'localhost'
 };
 var BASEURL = `${SERVEUR.PROTOCOL}${SERVEUR.HERMANN}:${SERVEUR.PORT}/schoolapp`;

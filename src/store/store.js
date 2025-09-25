@@ -8,6 +8,8 @@ import ecoleReducer from './parametrage/ecole';
 import profilReducer from './parametrage/profil';
 import privilegeReducer from './parametrage/privilege';
 import chambreReducer from './parametrage/chambre';
+import eleveReducer from './parametrage/eleves';
+import TypeListeReducer from './parametrage/typeListe';
 
 const persistConfig = {
   key: 'auth',
@@ -24,7 +26,9 @@ export const store = configureStore({
     ecole: ecoleReducer,
     profil: profilReducer,
     privilege: privilegeReducer,
-    chambre: chambreReducer
+    chambre: chambreReducer,
+    eleve: eleveReducer,
+    TypeListe: TypeListeReducer
   }
 });
 

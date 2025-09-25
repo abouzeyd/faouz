@@ -105,6 +105,8 @@ export default function useFormUser({ handleClose }) {
         setBatiment('');
         setDescription('');
         setNmbrpersonnedansChambre('');
+      } else {
+        toast.error(`${result?.payload?.message} `);
       }
     }
   };

@@ -2,7 +2,7 @@
 import React from 'react';
 import { setEdition } from '../../../../store/parametrage/chambre';
 import Select from 'react-select';
-import useFormUser from './useFormEleve';
+import useFormUser from './useFormEnseignants';
 
 export default function FormUtilisateur({ handleClose }) {
   const {

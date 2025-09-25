@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfil, getProfils, updateProfil, getProfil } from '../../../../service/parametrage/listeprofil';
 import { getPrivileges, createProfilPrivilege } from '../../../../service/parametrage/privilege';
+import toast from 'react-hot-toast';
 
 export function useFomProfil({ handleClose }) {
   const { listeProfils, createLoading, createError, receiveEditId, valueEdition, receiveId, profil, listePrivilegeId } = useSelector(
@@ -39,6 +40,8 @@ export function useFomProfil({ handleClose }) {
       if (createProfil.fulfilled.match(result)) {
         await dispatch(getProfils());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setName('');
         setDescription('');
         setSelctId('');
@@ -49,6 +52,8 @@ export function useFomProfil({ handleClose }) {
       if (updateProfil.fulfilled.match(result)) {
         await dispatch(getProfils());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setName('');
         setDescription('');
         setSelctId('');

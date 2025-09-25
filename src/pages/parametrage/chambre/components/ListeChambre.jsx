@@ -9,6 +9,7 @@ import { getChambres, deleteChambre } from '../../../../service/parametrage/cham
 import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/chambre';
+import toast from 'react-hot-toast';
 
 export default function ListeChambres() {
   // Start State Area
@@ -61,8 +62,6 @@ export default function ListeChambres() {
     setValeur(event.target.value);
   };
 
-  console.log({ data });
-
   const filterSaerch = data?.filter((data) => data?.desc?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
@@ -71,8 +70,9 @@ export default function ListeChambres() {
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
       dispatch(getChambres());
+      toast.success(response?.payload?.message);
     } else {
-      <Alert message="Error Text" type="error" />;
+      toast.success(response?.payload?.message);
     }
   };
 

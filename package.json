@@ -47,6 +47,7 @@
     "react-bootstrap": "^2.10.10",
     "react-device-detect": "2.2.3",
     "react-dom": "19.1.0",
+    "react-hot-toast": "^2.6.0",
     "react-number-format": "5.4.4",
     "react-paginate": "^8.3.0",
     "react-perfect-scrollbar": "^1.5.8",

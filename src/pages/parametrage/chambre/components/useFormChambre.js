@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
 import { createChambre, getChambre, updateChambre, getChambres } from '../../../../service/parametrage/chambres';
 import { getValueLocalStorage } from '../../../../service/globalFunction';
+import toast from 'react-hot-toast';
 
 export default function useFormUser({ handleClose }) {
   const dispatch = useDispatch();
@@ -26,9 +27,10 @@ export default function useFormUser({ handleClose }) {
       const result = await dispatch(createChambre({ batiment, description, nmbrpersonnedansChambre, selectId }));
 
       if (createChambre.fulfilled.match(result)) {
-        alert('hello');
         await dispatch(getChambres());
+
         handleClose();
+        toast.success(`${result?.payload?.message} `);
         setBatiment('');
         setDescription('');
         setNmbrpersonnedansChambre('');
@@ -39,6 +41,8 @@ export default function useFormUser({ handleClose }) {
       if (updateChambre.fulfilled.match(result)) {
         await dispatch(getChambres());
         handleClose();
+        console.log({ result });
+        toast.success(`${result?.payload?.message} `);
         setBatiment('');
         setDescription('');
         setNmbrpersonnedansChambre('');

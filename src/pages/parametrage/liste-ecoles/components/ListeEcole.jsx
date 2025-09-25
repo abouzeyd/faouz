@@ -10,6 +10,7 @@ import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/ecole';
 import { deleteEcole } from '../../../../service/parametrage/ecole';
+import toast from 'react-hot-toast';
 
 export default function ListeEcoles() {
   // Start State Area
@@ -65,8 +66,9 @@ export default function ListeEcoles() {
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
       dispatch(getEcoles());
+      toast.success(response?.payload?.message);
     } else {
-      <Alert message="Error Text" type="error" />;
+      toast.success(response?.payload?.message);
     }
   };
 

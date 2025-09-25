@@ -1,24 +1,24 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import DataTable from '../../../../components/DataTable';
-import DoyouWantDelete from '../../../../components/modaldoyouwantdelet';
-import ModalUtilisateur from './ModalProfilPrivilege';
+import DataTable from '../../../../../components/DataTable';
+import DoyouWantDelete from '../../../../../components/modaldoyouwantdelet';
+// import ModalTypeListe from './ModalTypeListe';
 import { Button, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfils, deleteProfil } from '../../../../service/parametrage/listeprofil';
-import { getPrivileges } from '../../../../service/parametrage/privilege';
+import { deleteListe, getListes } from '../../../../../service/parametrage/typeListe';
+// import { getPrivileges } from '../../../../service/parametrage/privilege';
 import RenderActions from './RenderActions';
 import { Alert } from 'antd';
-import { setEdition, setReceiveEditId, setReceiveCheckedId } from '../../../../store/parametrage/profil';
+import { setEdition, setReceiveEditId, setReceiveCheckedId } from '../../../../../store/parametrage/profil';
 import toast from 'react-hot-toast';
 
-export default function ListeUtilisateurs() {
+export default function TableListe() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { listeProfils, loading, error, utilisateurupdate, receiveId, receiveChecked } = useSelector((state) => state.profil);
+  const { listes, loading, error, utilisateurupdate, receiveId, receiveChecked } = useSelector((state) => state.TypeListe);
 
-  console.log({ listeProfils });
+  console.log({ listes });
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -31,21 +31,14 @@ export default function ListeUtilisateurs() {
   const [openModalEditer, setOpenModalEditer] = useState(false);
 
   //
-  const handleOpenModalEditer = (record) => {
-    dispatch(setEdition('editer'));
-    dispatch(setReceiveEditId(record?.key));
-    setOpenModalEditer(true);
-  };
 
   const handleCloseModalEditer = () => setOpenModalEditer(false);
 
-  const data = Array.isArray(listeProfils)
-    ? listeProfils.map((user, idx) => ({
-        key: user.lgProid || idx,
-        nom: user?.strProname,
-        login: user.strProdescription,
-        email: user.admin,
-        telephone: user.strProtype
+  const data = Array.isArray(listes)
+    ? listes.map((user, idx) => ({
+        key: user.lgLstid || idx,
+        nom: user?.strLstvalue,
+        description: user.strLstdescription
       }))
     : [];
 
@@ -56,11 +49,11 @@ export default function ListeUtilisateurs() {
   const filterSaerch = data?.filter((data) => data?.nom?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
-    const response = await dispatch(deleteProfil(receiveId?.key));
+    const response = await dispatch(deleteListe(receiveId?.key));
 
     if (response.payload.reponse === 'success') {
       setOpenModalDelete(false);
-      dispatch(getProfils());
+      dispatch(getListes());
       toast.success(response?.payload?.message);
     } else {
       toast.success(response?.payload?.message);
@@ -68,14 +61,14 @@ export default function ListeUtilisateurs() {
   };
 
   useEffect(() => {
-    dispatch(getProfils());
+    dispatch(getListes());
   }, []);
 
   const handleVoir = (row) => {};
 
   const columns = [
     {
-      title: 'Nom du profil',
+      title: 'Nom',
       dataIndex: 'nom',
       key: 'nom',
       sorter: (a, b) => a?.nom?.localeCompare(b.nom),
@@ -84,20 +77,10 @@ export default function ListeUtilisateurs() {
       })
     },
     {
-      title: 'Description',
-      dataIndex: 'login',
-      key: 'login',
-      sorter: (a, b) => a?.login?.localeCompare(b.login),
-      onHeaderCell: () => ({
-        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
-      })
-    },
-
-    {
-      title: 'Profils',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      sorter: (a, b) => a?.telephone?.localeCompare(b.telephone),
+      title: 'Descriptions',
+      dataIndex: 'description',
+      key: 'description',
+      sorter: (a, b) => a?.description?.localeCompare(b.description),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
@@ -112,12 +95,13 @@ export default function ListeUtilisateurs() {
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       }),
       render: (_, record) => {
+        console.log({ record });
+
         return (
           <RenderActions
             loading={loading}
             record={record}
             setEditerBtn={setEditerBtn}
-            handleOpenModalEditer={handleOpenModalEditer}
             handleVoir={handleVoir}
             setDeleteBtn={setDeleteBtn}
             handleOpenModalDelete={handleOpenModalDelete}
@@ -144,29 +128,11 @@ export default function ListeUtilisateurs() {
         <Box sx={{ width: { xs: '90%', sm: '70%', md: '60%' } }}>
           <TextField
             fullWidth
-            placeholder="Rechercher un profil"
+            placeholder="Rechercher une liste"
             value={valeur}
             onChange={handleChange}
             sx={{ backgroundColor: 'white', width: { xs: 450, sm: '70%', md: 800 } }}
           />
-        </Box>
-        <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              paddingX: 3,
-              paddingY: 1,
-              width: { xs: 'auto', sm: 'auto' }
-            }}
-            onClick={() => {
-              setOpenModalEditer(true);
-              dispatch(setEdition(''));
-              dispatch(getPrivileges());
-            }}
-          >
-            Ajouter un profil
-          </Button>
         </Box>
       </Box>
 
@@ -174,7 +140,7 @@ export default function ListeUtilisateurs() {
 
       <DoyouWantDelete open={openModalDelete} handleClose={handleCloseModalDelete} deleteButton={deleteButton} deleteBtn={deleteBtn} />
 
-      <ModalUtilisateur open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} />
+      {/* <ModalTypeListe open={openModalEditer} handleClose={handleCloseModalEditer} editerBtn={editerBtn} setEditerBtn={setEditerBtn} /> */}
     </div>
   );
 }

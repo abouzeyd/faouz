@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
 import { createUtilisateur, getUtilisateur, updateUtilisateur, getUtilisateurs } from '../../../../service/parametrage/utilisateurs';
 import { getValueLocalStorage } from '../../../../service/globalFunction';
+import toast from 'react-hot-toast';
 
 export default function useFormUser({ handleClose }) {
   const dispatch = useDispatch();
@@ -27,6 +29,8 @@ export default function useFormUser({ handleClose }) {
       if (createUtilisateur.fulfilled.match(result)) {
         await dispatch(getUtilisateurs());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setNameUser('');
         setLoginUser('');
         setPassword('');
@@ -39,6 +43,8 @@ export default function useFormUser({ handleClose }) {
       if (updateUtilisateur.fulfilled.match(result)) {
         await dispatch(getUtilisateurs());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setNameUser('');
         setLoginUser('');
         setPassword('');

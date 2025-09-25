@@ -1,10 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { setEdition, setReceiveId } from '../../../../store/parametrage/chambre';
+import { setEdition, setReceiveId } from '../../../../store/parametrage/typeListe';
 import { useDispatch } from 'react-redux';
-import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
-import { getProfils } from '../../../../service/parametrage/listeprofil';
-import { setReceiveChecked } from '../../../../store/parametrage/profil';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 export default function RenderActions({
   loading,
@@ -13,8 +11,7 @@ export default function RenderActions({
   handleOpenModalEditer,
   handleVoir,
   setDeleteBtn,
-  handleOpenModalDelete,
-  handleOpenModalProfilUser
+  handleOpenModalDelete
 }) {
   const dispatch = useDispatch();
 

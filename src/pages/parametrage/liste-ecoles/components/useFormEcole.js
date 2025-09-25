@@ -1,6 +1,9 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles, createEcole, getEcole, deleteEcole, updateEcole } from '../../../../service/parametrage/ecole';
+import toast from 'react-hot-toast';
+
 // import { createEcole, getEcole, updateEcole, getEcoles } from '../../../../service/parametrage/utilisateurs';
 
 export default function useFormUser({ handleClose }) {
@@ -26,6 +29,8 @@ export default function useFormUser({ handleClose }) {
       if (createEcole.fulfilled.match(result)) {
         await dispatch(getEcoles());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setNameEcole('');
         setLocalisation('');
         setEmail('');
@@ -37,6 +42,8 @@ export default function useFormUser({ handleClose }) {
       if (updateEcole.fulfilled.match(result)) {
         await dispatch(getEcoles());
         handleClose();
+        toast.success(`${result?.payload?.message} `);
+
         setNameEcole('');
         setLocalisation('');
         setEmail('');
