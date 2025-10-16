@@ -72,6 +72,7 @@ export function useFormTypeListe({ handleClose }) {
 
   useEffect(() => {
     if (valueEdition === 'editer' && receiveEditId) {
+      dispatch(getListes(receiveEditId));
       dispatch(getTypeliste(receiveEditId));
     } else {
       setName('');
@@ -101,10 +102,8 @@ export function useFormTypeListe({ handleClose }) {
     if (editeListe === '') {
       const result = await dispatch(createListe({ nameListe, descriptionListe, typeListe }));
 
-      console.log({ result });
-
       if (createListe.fulfilled.match(result)) {
-        await dispatch(getListes());
+        await dispatch(getListes(receiveEditId));
         toast.success(`${result?.payload?.message} `);
 
         setNameListe('');
@@ -114,11 +113,10 @@ export function useFormTypeListe({ handleClose }) {
         toast.error(`Veuillez contacter l'administrateur `);
       }
     } else if (editeListe == 'edition') {
-      console.log('editeListe avant save:', editeListe);
       const result = await dispatch(updateListe({ nameListe, descriptionListe, typeListe, liste }));
 
       if (updateListe.fulfilled.match(result)) {
-        await dispatch(getListes());
+        await dispatch(getListes(receiveEditId));
         toast.success(`${result?.payload?.message} `);
 
         setNameListe('');

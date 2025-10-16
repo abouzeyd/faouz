@@ -61,7 +61,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'liste-ecole',
+      path: 'liste-ecoles',
       element: (
         <ProtectsRoutes>
           <ListeEcole />
@@ -69,7 +69,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'chambre',
+      path: 'liste-chambres',
       element: (
         <ProtectsRoutes>
           <ListeChambres />
@@ -77,7 +77,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'eleves',
+      path: 'liste-eleves',
       element: (
         <ProtectsRoutes>
           <ListeEleves />
@@ -85,7 +85,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'enseignant',
+      path: 'liste-enseignants',
       element: (
         <ProtectsRoutes>
           <ListeEnseignants />
@@ -93,7 +93,7 @@ const MainRoutes = {
       )
     },
     {
-      path: 'type-liste',
+      path: 'liste-typelistes',
       element: (
         <ProtectsRoutes>
           <TypeListe />

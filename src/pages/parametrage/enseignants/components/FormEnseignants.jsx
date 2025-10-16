@@ -280,7 +280,7 @@ export default function FormUtilisateur({ handleClose }) {
           </div>
           <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
             <label htmlFor="phone" className="form-label fw-bold">
-              Type d'élève
+              Type d'enseignant
             </label>
             <Select
               options={typeEleve}

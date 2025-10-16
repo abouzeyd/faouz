@@ -98,7 +98,7 @@ export const createListe = createAsyncThunk('liste/saveliste', async (data) => {
 
 export const getListes = createAsyncThunk('liste/listListe', async (data) => {
   const token = getValueLocalStorage('user');
-  const response = await axios.get(`${BASEURL}/liste/listListe`, {
+  const response = await axios.get(`${BASEURL}/liste/listListe?LG_TYLID=${data}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token?.strUtitoken}`
@@ -108,7 +108,13 @@ export const getListes = createAsyncThunk('liste/listListe', async (data) => {
 });
 
 export const getListe = createAsyncThunk('liste/getListe', async (data) => {
-  const response = await axios.get(`${BASEURL}/liste/getListe?LG_LSTID=${data}`);
+  const token = getValueLocalStorage('user');
+  const response = await axios.get(`${BASEURL}/liste/getListe?LG_TYLID=${data}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token?.strUtitoken}`
+    }
+  });
   return response.data;
 });
 

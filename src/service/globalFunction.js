@@ -47,3 +47,14 @@ export const formatGlobalDate = (date) => {
   const formatted = date ? `${day}/${month}/${year}` : '';
   return formatted;
 };
+
+export const formatGlobalDateTranslate = (date) => {
+  // const rawDate = "2025-07-23 08:41:14.0";
+  const dateObj = new Date(date);
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const year = dateObj.getFullYear();
+
+  const formatted = date ? `${year}-${month}-${day}` : '';
+  return formatted;
+};

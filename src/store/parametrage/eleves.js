@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { createSlice } from '@reduxjs/toolkit';
 import { getEleves, createEleve, getEleve, updateEleve } from '../../service/parametrage/eleves';
-import { getEcoles } from '../../service/parametrage/ecole';
-import { getProfils } from '../../service/parametrage/listeprofil';
+import { getListes } from '../../service/parametrage/typeListe';
+import { getChambres } from '../../service/parametrage/chambres';
 
 const initialState = {
   eleves: [],
@@ -15,8 +15,11 @@ const initialState = {
   eleve: {},
   receiveId: {},
   eleveupdate: [],
+  listeEleves: [],
+  listeProfils: [],
   listeEcoles: [],
-  listeProfils: []
+  listNationalite: [],
+  listChambres: []
 };
 
 const elevesSlice = createSlice({
@@ -48,13 +51,28 @@ const elevesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getEleves.fulfilled, (state, action) => {
-      state.eleves = action.payload;
+      state.listeEleves = action?.payload;
       state.loading = false;
     });
     builder.addCase(getEleves.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     });
+
+    // LISTE DES TYPES LISTES
+
+    // builder.addCase(getTypeListes.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(getTypeListes.fulfilled, (state, action) => {
+    //   state.listNationalite = action?.payload;
+    //   state.loading = false;
+    // });
+    // builder.addCase(getTypeListes.rejected, (state, action) => {
+    //   state.error = action.error.message;
+    //   state.loading = false;
+    // });
 
     // Gestion de getEleve
     builder.addCase(getEleve.pending, (state) => {
@@ -104,10 +122,10 @@ const elevesSlice = createSlice({
     });
 
     builder
-      .addCase(getEcoles.pending, (state) => {
+      .addCase(getListes.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getEcoles.fulfilled, (state, action) => {
+      .addCase(getListes.fulfilled, (state, action) => {
         state.loading = false;
 
         if (action?.payload.length > 0) {
@@ -115,14 +133,43 @@ const elevesSlice = createSlice({
 
           action?.payload.forEach((element) => {
             ecole.push({
-              label: element?.strEcodescription,
-              value: element?.lgEcoid
+              label: element?.strLstdescription,
+              value: element?.lgLstid
             });
           });
-          state.listeEcoles = ecole;
+          state.listNationalite = ecole;
         }
       })
-      .addCase(getEcoles.rejected, (state, action) => {
+      .addCase(getListes.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+
+    // LISTE CHAMBRES
+
+    builder
+      .addCase(getChambres.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getChambres.fulfilled, (state, action) => {
+        state.loading = false;
+
+        if (action?.payload.length > 0) {
+          let chambres = [];
+
+          action?.payload.forEach((chambre) => {
+            chambres.push({
+              label: chambre?.strChanumbat,
+              value: chambre?.lgChaid
+            });
+          });
+
+          console.log({ chambres });
+
+          state.listChambres = chambres;
+        }
+      })
+      .addCase(getChambres.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

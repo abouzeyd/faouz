@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Box, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import Select from 'react-select';
 import { useFomProfil } from './useFormProfilPrivilege';
@@ -25,7 +26,8 @@ export default function FormProfilPrivilege({ handleClose }) {
     saveEnregistrementProfil,
     profil,
     valueEdition,
-    SaveProfilPrivilege
+    SaveProfilPrivilege,
+    listePrivileges
   } = useFomProfil({ handleClose });
 
   const handleCheckboxChange = (_, item) => {
@@ -43,30 +45,17 @@ export default function FormProfilPrivilege({ handleClose }) {
     }
   };
 
-  console.log({ valueEdition });
+  const stablePaginatedItems = useMemo(() => listePrivileges, [JSON.stringify(listePrivileges)]);
 
   useEffect(() => {
     if (valueEdition === 'editer') {
-      const receiveValue = paginatedItems.filter((item) => item?.checked === true).map((array) => array.lgPriid);
+      const receiveValue = stablePaginatedItems.filter((item) => item?.checked === true).map((array) => array.lgPriid);
 
-      setReceiveCheckedId((prev) => {
-        const isSame = prev.length === receiveValue.length && prev.every((val) => receiveValue.includes(val));
-
-        return isSame ? prev : receiveValue;
-      });
+      setReceiveCheckedId(receiveValue);
     } else {
-      setReceiveCheckedId([]); // en mode création, vider la sélection
+      setReceiveCheckedId([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [valueEdition, paginatedItems]);
-
-  // useEffect(() => {
-  //   if (receiveCheckedId.length === 0) {
-  //     const receiveValue = paginatedItems.filter((item) => item?.checked === true).map((array) => array.lgPriid);
-  //     setReceiveCheckedId(receiveValue);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [paginatedItems]);
+  }, [valueEdition, stablePaginatedItems]);
 
   return (
     <Box sx={{ display: 'flex', p: 4 }}>
@@ -112,14 +101,19 @@ export default function FormProfilPrivilege({ handleClose }) {
             </Box>
 
             {/* Lignes de données */}
-            {paginatedItems.map((item) => (
-              <Box key={item.lgPriid} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <Checkbox checked={receiveCheckedId.includes(item.lgPriid)} onChange={(e) => handleCheckboxChange(e, item)} />
-                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPriname}</Box>
-                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPridescription}</Box>
-                <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPritype}</Box>
-              </Box>
-            ))}
+            {paginatedItems.map((item) => {
+              console.log({ item });
+              console.log('receiveCheckedId', receiveCheckedId.includes(item?.lgPriid));
+
+              return (
+                <Box key={item.lgPriid} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Checkbox checked={receiveCheckedId.includes(item.lgPriid)} onChange={(e) => handleCheckboxChange(e, item)} />
+                  <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPriname}</Box>
+                  <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPridescription}</Box>
+                  <Box sx={{ flex: 1, textAlign: 'center' }}>{item.strPritype}</Box>
+                </Box>
+              );
+            })}
           </FormGroup>
 
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>

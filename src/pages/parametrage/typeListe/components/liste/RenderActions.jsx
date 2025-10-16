@@ -3,7 +3,7 @@ import React from 'react';
 import { setEdition, setReceiveId, setEditeListe } from '../../../../../store/parametrage/typeListe';
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { getListe } from '../../../../../service/parametrage/typeListe';
+import { getListe, getListes } from '../../../../../service/parametrage/typeListe';
 
 export default function RenderActions({ loading, record, setEditerBtn, handleVoir, setDeleteBtn, handleOpenModalDelete }) {
   const dispatch = useDispatch();

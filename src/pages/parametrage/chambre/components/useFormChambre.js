@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
 import { createChambre, getChambre, updateChambre, getChambres } from '../../../../service/parametrage/chambres';
+import { getEleves } from '../../../../service/parametrage/eleves';
 import { getValueLocalStorage } from '../../../../service/globalFunction';
 import toast from 'react-hot-toast';
 
 export default function useFormUser({ handleClose }) {
   const dispatch = useDispatch();
-  const { createLoading, createError, receiveEditId, valueEdition, chambre, receiveId, listeEcoles } = useSelector(
+  const { createLoading, createError, receiveEditId, valueEdition, chambre, receiveId, listeEleves } = useSelector(
     (state) => state.chambre
   );
   const user = getValueLocalStorage('user')?.lgUtiid;
@@ -18,7 +19,7 @@ export default function useFormUser({ handleClose }) {
   const [nmbrpersonnedansChambre, setNmbrpersonnedansChambre] = useState('');
   const [selectId, setSelectId] = useState('');
 
-  console.log({ valueEdition });
+  console.log({ selectId });
 
   const handleSubmit = async () => {
     if (!batiment.trim() || !description.trim() || !nmbrpersonnedansChambre.trim()) {
@@ -64,13 +65,13 @@ export default function useFormUser({ handleClose }) {
     if (valueEdition === 'editer' && chambre) {
       setBatiment(chambre?.strChanumbat || '');
       setDescription(chambre.strChadescription || '');
-      setSelectId(chambre?.lgEcoid);
+      setSelectId(chambre?.lgEleid);
       setNmbrpersonnedansChambre('***************');
     }
   }, [chambre, valueEdition]);
 
   useEffect(() => {
-    dispatch(getEcoles());
+    dispatch(getEleves());
   }, []);
 
   return {
@@ -86,7 +87,7 @@ export default function useFormUser({ handleClose }) {
     createLoading,
     createError,
     valueEdition,
-    listeEcoles,
+    listeEleves,
     user
   };
 }

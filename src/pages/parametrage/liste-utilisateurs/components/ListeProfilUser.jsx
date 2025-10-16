@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogTitle, Typography, IconButton, Button, Checkbox } from '@mui/material';
@@ -33,9 +34,15 @@ export const ListeProfilUser = ({ handleClose }) => {
   }, [listeProfils]);
 
   return (
-    <div>
+    <div
+      style={{
+        maxHeight: 400,
+        overflowY: 'auto',
+        p: 2
+      }}
+    >
       {listeProfils?.map((item) => (
-        <div style={{ display: 'flex', paddingLeft: 25, marginTop: 20, alignItems: 'center' }}>
+        <div style={{ display: 'flex', paddingLeft: 25, marginTop: 10, alignItems: 'center' }}>
           <div style={{ marginRight: 15 }}>
             <Checkbox checked={receiveCheckedId.includes(item.lgProid)} onChange={(e) => handleCheckboxChange(e, item)} />
           </div>
@@ -51,7 +58,7 @@ export const ListeProfilUser = ({ handleClose }) => {
           justifyContent: 'flex-end',
           paddingRight: 1,
           //   gap: '10px',
-          padding: '15rem',
+          padding: '5rem',
           borderTop: '1px solid #ccc'
         }}
       >

@@ -4,12 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEcoles } from '../../../../service/parametrage/ecole';
 import { getValueLocalStorage } from '../../../../service/globalFunction';
 import { getEleves, updateEleve, getEleve, createEleve } from '../../../../service/parametrage/eleves';
+import { getListes } from '../../../../service/parametrage/typeListe';
+import { getChambres } from '../../../../service/parametrage/chambres';
+
 import toast from 'react-hot-toast';
 
 export default function useFormUser({ handleClose }) {
   const dispatch = useDispatch();
-  const { createLoading, createError, receiveEditId, valueEdition, eleve, receiveId, listeEcoles } = useSelector((state) => state.eleve);
+  const { createLoading, createError, receiveEditId, valueEdition, eleve, receiveId, listNationalite, listChambres } = useSelector(
+    (state) => state.eleve
+  );
   const user = getValueLocalStorage('user')?.lgUtiid;
+
+  console.log({ listNationalite });
 
   const [batiment, setBatiment] = useState('');
   const [nom, setNom] = useState('');
@@ -27,17 +34,41 @@ export default function useFormUser({ handleClose }) {
   const [halakat, setHalakat] = useState('');
   const [numeroLit, setNumeroLit] = useState('');
   const [dateInscription, setDateInscription] = useState('');
+  const [receiveValueSexe, setReceiveValueSexe] = useState('');
+  const [receiveValueTypeEleve, setReceiveValueTypeEleve] = useState('');
+
+  const [receiveIdCharge, setReceiveIdCharge] = useState('');
+  const [description, setDescription] = useState('');
+  const [nmbrpersonnedansChambre, setNmbrpersonnedansChambre] = useState('');
+  const [selectId, setSelectId] = useState('');
+  const [selectNationaliteId, setSelectNationaliteId] = useState('');
+  const [valueNiveauEtude, setValueNiveauEtude] = useState('');
+  const [valueCoranEleve, setValueCoranEleve] = useState('');
+  const [provenance, setProvenance] = useState('');
+  const [selectChambreId, setSelectChambreId] = useState('');
+
   const sexe = [
-    { label: 'Fille', value: '0' },
-    { label: 'Garcon', value: '1' }
+    { label: 'Fille', value: 'Fille' },
+    { label: 'Garcon', value: 'Garcon' }
   ];
 
-  const [receiveValueSexe, setReceiveValueSexe] = useState('');
   const priseCharge = [
-    { label: '', value: '' },
-    { label: 'ONG', value: '0' },
-    { label: 'PARTICULIER', value: '1' },
-    { label: 'FONDATEUR', value: '2' }
+    { label: 'NON PRIS EN CHARGE', value: '0' },
+    { label: 'ONG', value: '1' },
+    { label: 'PARTICULIER', value: '2' },
+    { label: 'FONDATEUR', value: '3' }
+  ];
+
+  const niveauEleve = [
+    { label: 'Coran', value: '0' },
+    { label: 'Alphabert', value: '1' },
+    { label: 'autre', value: '2' }
+  ];
+
+  const coranEleve = [
+    { label: 'Hifz 10', value: '0' },
+    { label: 'Hifz 1', value: '1' },
+    { label: 'Hifz 9', value: '2' }
   ];
 
   const typeEleve = [
@@ -46,14 +77,7 @@ export default function useFormUser({ handleClose }) {
     { label: 'EXTERNE', value: '1' }
   ];
 
-  const [receiveValueTypeEleve, setReceiveValueTypeEleve] = useState('');
-
-  const [receiveIdCharge, setReceiveIdCharge] = useState('');
-  const [description, setDescription] = useState('');
-  const [nmbrpersonnedansChambre, setNmbrpersonnedansChambre] = useState('');
-  const [selectId, setSelectId] = useState('');
-
-  console.log({ valueEdition });
+  console.log({ selectNationaliteId });
 
   const handleSubmit = async () => {
     if (!batiment.trim() || !description.trim() || !nmbrpersonnedansChambre.trim()) {
@@ -63,11 +87,12 @@ export default function useFormUser({ handleClose }) {
         createEleve({
           nom,
           prenom,
-          sexe,
+          receiveValueSexe,
           dteNaissance,
           lieuNaissance,
           refExtrait,
           numPiece,
+          provenance,
           nomPere,
           profession,
           contactPere,
@@ -75,12 +100,16 @@ export default function useFormUser({ handleClose }) {
           professionMere,
           contactMere,
           receiveValueTypeEleve,
-          priseCharge,
+          receiveIdCharge,
           halakat,
           numeroLit,
           batiment,
           dateInscription,
-          selectId
+          selectId,
+          valueNiveauEtude,
+          valueCoranEleve,
+          selectNationaliteId,
+          selectChambreId
         })
       );
 
@@ -96,7 +125,36 @@ export default function useFormUser({ handleClose }) {
       }
     }
     if (valueEdition === 'editer') {
-      const result = await dispatch(updateEleve({ batiment, description, nmbrpersonnedansChambre, receiveId, selectId, receiveEditId }));
+      const result = await dispatch(
+        updateEleve({
+          nom,
+          prenom,
+          receiveValueSexe,
+          dteNaissance,
+          lieuNaissance,
+          refExtrait,
+          numPiece,
+          provenance,
+          nomPere,
+          profession,
+          contactPere,
+          nomMere,
+          professionMere,
+          contactMere,
+          receiveValueTypeEleve,
+          receiveIdCharge,
+          halakat,
+          numeroLit,
+          batiment,
+          dateInscription,
+          selectId,
+          valueNiveauEtude,
+          valueCoranEleve,
+          receiveEditId,
+          selectNationaliteId,
+          selectChambreId
+        })
+      );
 
       if (updateEleve.fulfilled.match(result)) {
         await dispatch(getEleves());
@@ -121,15 +179,39 @@ export default function useFormUser({ handleClose }) {
 
   useEffect(() => {
     if (valueEdition === 'editer' && eleve) {
-      setBatiment(eleve?.strChanumbat || '');
-      setDescription(eleve.strChadescription || '');
-      setSelectId(eleve?.lgEcoid);
-      setNmbrpersonnedansChambre('***************');
+      setBatiment(eleve?.strElenumbat);
+      setNom(eleve?.strElenom);
+      setPrenom(eleve?.strEleprenom);
+      setDteNaissance(eleve?.dtElenaissance);
+      setLieuNaissance(eleve?.strElelieunaissance);
+      setRefExtrait(eleve?.strElerefextrait);
+      setNumPiece(eleve?.strElenumpiece);
+      setNomPere(eleve?.strElenompere);
+      setProfession(eleve?.strEleprofesionpere);
+      setContactPere(eleve?.strElecontactpere);
+      setNomMere(eleve?.strElenommere);
+      setProfessionMere(eleve?.strEleprofesionmere);
+      setContactMere(eleve?.strElecontactmere);
+      setHalakat(eleve?.strElehalaqate);
+      setNumeroLit(eleve?.strElenumlit);
+      setDateInscription(eleve?.dtEleinscription);
+      setReceiveValueSexe(eleve?.strElesexe);
+      setValueCoranEleve(eleve?.strElecoran);
+      setValueNiveauEtude(eleve?.strEleniveau);
+      setReceiveValueTypeEleve(eleve?.strEleniveau);
+      setProvenance(eleve?.strEleprovenance);
+      setSelectNationaliteId(eleve?.strEleprovenance);
+      setReceiveIdCharge(eleve?.strElepriseencharge);
+      setSelectChambreId(eleve?.lgChaid);
+      setSelectNationaliteId(eleve?.strElenationalite);
     }
   }, [eleve, valueEdition]);
 
+  const LG_TYLID = '15101410565965462835';
+
   useEffect(() => {
-    dispatch(getEcoles());
+    dispatch(getListes(LG_TYLID));
+    dispatch(getChambres());
   }, []);
 
   return {
@@ -171,7 +253,6 @@ export default function useFormUser({ handleClose }) {
     createLoading,
     createError,
     valueEdition,
-    listeEcoles,
     user,
     sexe,
     receiveValueSexe,
@@ -181,6 +262,20 @@ export default function useFormUser({ handleClose }) {
     setReceiveIdCharge,
     typeEleve,
     setReceiveValueTypeEleve,
-    receiveValueTypeEleve
+    receiveValueTypeEleve,
+    coranEleve,
+    valueCoranEleve,
+    setValueCoranEleve,
+    niveauEleve,
+    valueNiveauEtude,
+    setValueNiveauEtude,
+    setProvenance,
+    provenance,
+    listNationalite,
+    listChambres,
+    setSelectChambreId,
+    selectChambreId,
+    setSelectNationaliteId,
+    selectNationaliteId
   };
 }

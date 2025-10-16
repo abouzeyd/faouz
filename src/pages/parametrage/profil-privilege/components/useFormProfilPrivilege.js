@@ -30,6 +30,8 @@ export function useFomProfil({ handleClose }) {
 
   const paginatedItems = listePrivileges.slice((page - 1) * itermsPerPage, page * itermsPerPage);
 
+  console.log({ listePrivileges });
+
   const saveEnregistrementProfil = async () => {
     if (!name.trim() || !description.trim() || !selectId.trim()) {
       return;
@@ -89,6 +91,7 @@ export function useFomProfil({ handleClose }) {
     const response = await dispatch(createProfilPrivilege(receiveCheckedId));
     if (response.payload.reponse === 'success') {
       handleClose();
+      toast.success(`${response?.payload?.message} `);
     } else {
       return;
     }
@@ -116,6 +119,7 @@ export function useFomProfil({ handleClose }) {
     getProfil,
     profil,
     valueEdition,
-    SaveProfilPrivilege
+    SaveProfilPrivilege,
+    listePrivileges
   };
 }

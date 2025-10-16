@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getChambres, createChambre, getChambre, updateChambre } from '../../service/parametrage/chambres';
 import { getEcoles } from '../../service/parametrage/ecole';
-import { getProfils } from '../../service/parametrage/listeprofil';
+import { getEleves } from '../../service/parametrage/eleves';
 
 const initialState = {
   chambres: [],
@@ -15,7 +15,7 @@ const initialState = {
   chambre: {},
   receiveId: {},
   chambreupdate: [],
-  listeEcoles: [],
+  listeEleves: [],
   listeProfils: []
 };
 
@@ -104,25 +104,25 @@ const chambreSlice = createSlice({
     });
 
     builder
-      .addCase(getEcoles.pending, (state) => {
+      .addCase(getEleves.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getEcoles.fulfilled, (state, action) => {
+      .addCase(getEleves.fulfilled, (state, action) => {
         state.loading = false;
 
         if (action?.payload.length > 0) {
-          let ecole = [];
+          let eleves = [];
 
           action?.payload.forEach((element) => {
-            ecole.push({
-              label: element?.strEcodescription,
-              value: element?.lgEcoid
+            eleves.push({
+              label: `${element?.strElenom} ${element?.strEleprenom}`,
+              value: element?.lgEleid
             });
           });
-          state.listeEcoles = ecole;
+          state.listeEleves = eleves;
         }
       })
-      .addCase(getEcoles.rejected, (state, action) => {
+      .addCase(getEleves.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

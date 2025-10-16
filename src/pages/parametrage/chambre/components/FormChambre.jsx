@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { setEdition } from '../../../../store/parametrage/chambre';
 import Select from 'react-select';
 import useFormUser from './useFormChambre';
@@ -18,7 +18,7 @@ export default function FormUtilisateur({ handleClose }) {
     createLoading,
     createError,
     valueEdition,
-    listeEcoles,
+    listeEleves,
     user
   } = useFormUser({ handleClose });
 
@@ -94,8 +94,8 @@ export default function FormUtilisateur({ handleClose }) {
               Chef de chambre
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={listeEleves}
+              value={listeEleves.find((option) => option.value === selectId)}
               onChange={(option) => {
                 setSelectId(option ? option.value : '');
               }}

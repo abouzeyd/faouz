@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
 import { Box, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import Select from 'react-select';
 import { useFormTypeListe } from './useFormTypeListe';

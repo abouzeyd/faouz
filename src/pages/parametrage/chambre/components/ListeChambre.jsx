@@ -54,7 +54,7 @@ export default function ListeChambres() {
         desc: user.strChadescription,
         numLit: user.strChanumlit,
         nbrechambre: user.strChanombre,
-        chefchambre: user.chefchambre
+        chefchambre: user.strEleve
       }))
     : [];
 

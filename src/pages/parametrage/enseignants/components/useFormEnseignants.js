@@ -27,6 +27,20 @@ export default function useFormUser({ handleClose }) {
   const [halakat, setHalakat] = useState('');
   const [numeroLit, setNumeroLit] = useState('');
   const [dateInscription, setDateInscription] = useState('');
+  const [residence, setResidence] = useState('');
+  const [matrimonial, setMatrimonial] = useState('');
+  const [niveauetude, setNiveauetude] = useState('');
+  const [diplomeobtenu, setDiplomeobtenu] = useState('');
+  const [typeEnseignant, setTypeEnseignant] = useState('');
+  const [contactEnseignant, setContactEnseignant] = useState('');
+  const [contactwhatsapp, setContactwhatsapp] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [dossierfourni, setDossierfourni] = useState('');
+  const [ensfonction, setEnsfonction] = useState('');
+  const [dtemploi, setDtemploi] = useState('');
+  const [ensniveau, setEnsniveau] = useState('');
+  const [enshalaqate, setEnshalaqate] = useState('');
+
   const sexe = [
     { label: 'Fille', value: '0' },
     { label: 'Garcon', value: '1' }

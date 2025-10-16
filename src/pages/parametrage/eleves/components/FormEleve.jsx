@@ -44,7 +44,6 @@ export default function FormUtilisateur({ handleClose }) {
     createLoading,
     createError,
     valueEdition,
-    listeEcoles,
     user,
     sexe,
     receiveValueSexe,
@@ -54,8 +53,24 @@ export default function FormUtilisateur({ handleClose }) {
     setReceiveIdCharge,
     typeEleve,
     setReceiveValueTypeEleve,
-    receiveValueTypeEleve
+    receiveValueTypeEleve,
+    coranEleve,
+    valueCoranEleve,
+    setValueCoranEleve,
+    niveauEleve,
+    valueNiveauEtude,
+    setValueNiveauEtude,
+    setProvenance,
+    provenance,
+    listNationalite,
+    listChambres,
+    setSelectChambreId,
+    selectChambreId,
+    setSelectNationaliteId,
+    selectNationaliteId
   } = useFormUser({ handleClose });
+
+  // console.log({ listChambres });
 
   return (
     <div>
@@ -118,7 +133,7 @@ export default function FormUtilisateur({ handleClose }) {
               type="date"
               className="form-control"
               id="dteNaissance"
-              placeholder="Date de aissance"
+              placeholder="Date de naissance"
               value={dteNaissance}
               onChange={(e) => setDteNaissance(e.target.value)}
               disabled={createLoading}
@@ -129,7 +144,7 @@ export default function FormUtilisateur({ handleClose }) {
               Lieu de naissance
             </label>
             <input
-              type="date"
+              type="text"
               className="form-control"
               id="date"
               placeholder="Lieu de naissance"
@@ -171,10 +186,12 @@ export default function FormUtilisateur({ handleClose }) {
               Nationalité
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={listNationalite}
+              value={listNationalite.find((option) => option.value === selectNationaliteId)}
               onChange={(option) => {
-                setSelectId(option ? option.value : '');
+                console.log('test', option);
+
+                setSelectNationaliteId(option ? option.value : '');
               }}
               isDisabled={user === '01' ? false : true}
             />
@@ -183,13 +200,14 @@ export default function FormUtilisateur({ handleClose }) {
             <label htmlFor="phone" className="form-label fw-bold">
               Provénance
             </label>
-            <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
-              onChange={(option) => {
-                setSelectId(option ? option.value : '');
-              }}
-              isDisabled={user === '01' ? false : true}
+            <input
+              type="text"
+              className="form-control"
+              id="text"
+              placeholder="Provénance"
+              value={provenance}
+              onChange={(e) => setProvenance(e.target.value)}
+              disabled={createLoading}
             />
           </div>
           <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
@@ -208,7 +226,7 @@ export default function FormUtilisateur({ handleClose }) {
           </div>
           <div className="col-md-6 col-lg-6 col-sm-12 mb-3">
             <label htmlFor="text" className="form-label fw-bold">
-              profession
+              profession du père
             </label>
             <input
               type="text"
@@ -309,8 +327,8 @@ export default function FormUtilisateur({ handleClose }) {
               Enseignant
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={listNationalite}
+              value={listNationalite.find((option) => option.value === selectId)}
               onChange={(option) => {
                 setSelectId(option ? option.value : '');
               }}
@@ -337,10 +355,10 @@ export default function FormUtilisateur({ handleClose }) {
               Chambre
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={listChambres}
+              value={listChambres.find((option) => option.value === selectChambreId)}
               onChange={(option) => {
-                setSelectId(option ? option.value : '');
+                setSelectChambreId(option ? option.value : '');
               }}
               isDisabled={user === '01' ? false : true}
             />
@@ -394,10 +412,10 @@ export default function FormUtilisateur({ handleClose }) {
               Niveau de l'élève
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={niveauEleve}
+              value={niveauEleve.find((option) => option.value === valueNiveauEtude)}
               onChange={(option) => {
-                setSelectId(option ? option.value : '');
+                setValueNiveauEtude(option ? option.value : '');
               }}
               isDisabled={user === '01' ? false : true}
             />
@@ -407,10 +425,10 @@ export default function FormUtilisateur({ handleClose }) {
               Coran
             </label>
             <Select
-              options={listeEcoles}
-              value={listeEcoles.find((option) => option.value === selectId)}
+              options={coranEleve}
+              value={coranEleve.find((option) => option.value === valueCoranEleve)}
               onChange={(option) => {
-                setSelectId(option ? option.value : '');
+                setValueCoranEleve(option ? option.value : '');
               }}
               isDisabled={user === '01' ? false : true}
             />

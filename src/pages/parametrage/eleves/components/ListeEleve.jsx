@@ -10,12 +10,15 @@ import RenderActions from './RenderActions';
 import { Alert } from 'antd';
 import { setEdition, setReceiveEditId } from '../../../../store/parametrage/eleves';
 import toast from 'react-hot-toast';
+import { formatGlobalDate } from '../../../../service/globalFunction';
 
 export default function ListeEleve() {
   // Start State Area
   const [valeur, setValeur] = useState('');
   const dispatch = useDispatch();
-  const { chambres, loading, error, receiveEditId, receiveId } = useSelector((state) => state.chambre);
+  const { listeEleves, loading, error, receiveEditId, receiveId } = useSelector((state) => state.eleve);
+
+  console.log({ receiveId });
 
   // Suppression
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -47,14 +50,15 @@ export default function ListeEleve() {
     dispatch(getEleves());
   }, [dispatch]);
 
-  const data = Array.isArray(chambres)
-    ? chambres.map((user, idx) => ({
-        key: user.lgChaid || idx,
-        batiment: user?.strChanumbat,
-        desc: user.strChadescription,
-        numLit: user.strChanumlit,
-        nbrechambre: user.strChanombre,
-        chefchambre: user.chefchambre
+  const data = Array.isArray(listeEleves)
+    ? listeEleves.map((student, idx) => ({
+        key: student.lgEleid || idx,
+        nom: student?.strElenom,
+        prenom: student.strEleprenom,
+        sexe: student.strElesexe,
+        datenaissance: formatGlobalDate(student.dtElenaissance),
+        lieunaissance: student.strElelieunaissance,
+        batiment: student?.strElenumbat
       }))
     : [];
 
@@ -62,9 +66,7 @@ export default function ListeEleve() {
     setValeur(event.target.value);
   };
 
-  console.log({ data });
-
-  const filterSaerch = data?.filter((data) => data?.desc?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
+  const filterSaerch = data?.filter((data) => data?.nom?.toLocaleLowerCase().includes(valeur.toLocaleLowerCase()));
 
   const deleteButton = async () => {
     const response = await dispatch(deleteEleve(receiveId?.key));
@@ -83,45 +85,55 @@ export default function ListeEleve() {
   const columns = [
     {
       title: 'Nom',
-      dataIndex: 'batiment',
-      key: 'batiment',
-      sorter: (a, b) => a?.batiment?.localeCompare(b.batiment),
+      dataIndex: 'nom',
+      key: 'nom',
+      sorter: (a, b) => a?.nom?.localeCompare(b.nom),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Prénoms',
-      dataIndex: 'desc',
-      key: 'desc',
-      sorter: (a, b) => a?.desc?.localeCompare(b.desc),
+      dataIndex: 'prenom',
+      key: 'prenom',
+      sorter: (a, b) => a?.prenom?.localeCompare(b.prenom),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Sexe',
-      dataIndex: 'nbrechambre',
-      key: 'nbrechambre',
-      sorter: (a, b) => a?.nbrechambre?.localeCompare(b.nbrechambre),
+      dataIndex: 'sexe',
+      key: 'sexe',
+      sorter: (a, b) => a?.sexe?.localeCompare(b.sexe),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Date de naissance',
-      dataIndex: 'chefchambre',
-      key: 'chefchambre',
-      sorter: (a, b) => a?.chefchambre?.localeCompare(b.chefchambre),
+      dataIndex: 'datenaissance',
+      key: 'datenaissance',
+      sorter: (a, b) => a?.datenaissance?.localeCompare(b.datenaissance),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })
     },
     {
       title: 'Lieu de naissance',
-      dataIndex: 'chefchambre',
-      key: 'chefchambre',
-      sorter: (a, b) => a?.chefchambre?.localeCompare(b.chefchambre),
+      dataIndex: 'lieunaissance',
+      key: 'lieunaissance',
+      sorter: (a, b) => a?.lieunaissance?.localeCompare(b.lieunaissance),
+      onHeaderCell: () => ({
+        style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
+      })
+    },
+
+    {
+      title: 'Batiment',
+      dataIndex: 'batiment',
+      key: 'batiment',
+      sorter: (a, b) => a?.batiment?.localeCompare(b.batiment),
       onHeaderCell: () => ({
         style: { background: '#f0f0f0', color: 'black', fontWeight: 'bold' }
       })

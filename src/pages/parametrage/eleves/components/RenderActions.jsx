@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { setEdition, setReceiveId } from '../../../../store/parametrage/chambre';
+import { setEdition, setReceiveId } from '../../../../store/parametrage/eleves';
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { getProfils } from '../../../../service/parametrage/listeprofil';
