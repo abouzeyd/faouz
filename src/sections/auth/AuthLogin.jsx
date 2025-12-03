@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -25,6 +26,8 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
+import MailOutlined from '@ant-design/icons/MailOutlined';
+import LockOutlined from '@ant-design/icons/LockOutlined';
 
 import ModalProfilPrivilege from '../../components/ModalMultipleProfil';
 import useAuth from './useAuth';
@@ -105,6 +108,11 @@ export default function AuthLogin({ isDemo = false }) {
                   <Stack sx={{ gap: 1 }}>
                     <InputLabel htmlFor="username-login">Nom d'utilisateur</InputLabel>
                     <OutlinedInput
+                      startAdornment={
+                        <InputAdornment position="end">
+                          <MailOutlined />
+                        </InputAdornment>
+                      }
                       id="username-login"
                       type="text"
                       value={values.username}
@@ -130,6 +138,11 @@ export default function AuthLogin({ isDemo = false }) {
                   <Stack sx={{ gap: 1 }}>
                     <InputLabel htmlFor="password-login">Mot de passe</InputLabel>
                     <OutlinedInput
+                      startAdornment={
+                        <InputAdornment position="end">
+                          <LockOutlined />
+                        </InputAdornment>
+                      }
                       fullWidth
                       error={Boolean(touched.password && errors.password)}
                       id="-password-login"
@@ -164,20 +177,14 @@ export default function AuthLogin({ isDemo = false }) {
                     </FormHelperText>
                   )}
                 </Grid>
-                <Grid sx={{ mt: -1 }} size={12}>
-                  <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
-                    <Link variant="h6" component={RouterLink} to="#" color="text.primary">
-                      Mot de passe oublié ?
-                    </Link>
-                  </Stack>
-                </Grid>
+
                 <Grid size={12}>
                   <AnimateButton>
                     <Button
                       fullWidth
                       size="large"
                       variant="contained"
-                      color="primary"
+                      sx={{ backgroundColor: '#34a1eb' }}
                       onClick={() => handleSubmit()}
                       disabled={authentication.loading}
                       startIcon={authentication.loading ? <CircularProgress size={20} color="inherit" /> : null}
@@ -185,6 +192,13 @@ export default function AuthLogin({ isDemo = false }) {
                       {authentication.loading ? 'Connexion...' : 'Se connecter'}
                     </Button>
                   </AnimateButton>
+                </Grid>
+                <Grid sx={{ mt: -1, mb: 4 }} size={12}>
+                  <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
+                    <Link variant="h6" component={RouterLink} to="#" color="text.primary">
+                      Mot de passe oublié ?
+                    </Link>
+                  </Stack>
                 </Grid>
               </Grid>
             </form>

@@ -16,7 +16,7 @@ const ModalProfilPrivilege = ({ open, onOk, onCancel, setReceiveProfilId }) => {
             return (
               <div style={{ width: '410px', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, marginBottom: 50 }}>
                 <Button
-                  style={{ width: 400, padding: 2 }}
+                  style={{ width: 400, padding: 20, backgroundColor: '#34a1eb', color: 'white' }}
                   onClick={async () => {
                     const responses = await generateMenu(item?.lgProid);
 
@@ -29,7 +29,6 @@ const ModalProfilPrivilege = ({ open, onOk, onCancel, setReceiveProfilId }) => {
                       }, 100);
                     }
                   }}
-                  className="btn btn-primary"
                 >
                   {item?.strProname}
                 </Button>

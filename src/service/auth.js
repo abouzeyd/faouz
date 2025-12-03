@@ -51,6 +51,7 @@ export const deconnexion = async (navigate) => {
       }
     );
     navigate('/login', { replace: true });
+    // window.location.reload();
     purgeStorage('user');
     purgeStorage('persist:auth');
     purgeStorage('generateMenu');

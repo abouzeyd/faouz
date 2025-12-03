@@ -83,7 +83,7 @@ export default function useAuth() {
       }
     } catch (error) {
       console.error('Erreur de connexion:', error);
-      navigate('/dashboard');
+      navigate('/login');
       dispatch(loginFailure(error.response?.data?.message || 'Erreur de connexion'));
     }
   };

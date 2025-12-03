@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
 
